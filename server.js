@@ -1,11 +1,13 @@
 const http = require('http');
 const net = require('net');
 const os = require('os');
+const APIRequests = require('./APIRequests');
 
 // const keepAliveAgent = new http.Agent({ 
 //     keepAlive: true,
 //     maxSockets: 10
 // });
+
 
 const server = http.createServer((req, res) => {
     res.removeHeader('Connection');
@@ -16,13 +18,19 @@ const server = http.createServer((req, res) => {
     });
     if (req.url === '/' && req.method === "GET") {
         res.write(JSON.stringify({
-            "message": "Hello World!",
+            "message": "Hello World!",    
+            "urlRequested": req.url,
+            "bodyRequest": `${req.body}`,
         }));
-        res.end();
+        console.log('Will make API request to OpenDota!');
+        APIRequests.getFrom('https://api.opendota.com/api/heroes');
     } else {
-        res.write(`Not Found - ${req.url}`);
-        res.end();
-    }
+        res.write(JSON.stringify({
+            "message": "Not Found",    
+            "urlRequested": req.url
+        }));
+    };
+    res.end();
 })
 
 const startServer = (PORT, HOST, BACKLOG) => {
@@ -32,31 +40,10 @@ const startServer = (PORT, HOST, BACKLOG) => {
         exclusive: true 
     }, BACKLOG,
         () => {
-        console.log(`Attempting to run server at http://${HOST}:${PORT}`)
+        console.log(`Attempting to run server at http://${HOST}:${PORT}`);
     });
+//     server.once('connection', (request) => {
+// }); 
 }
-
-
-// server.on('connection', () => {
-//     const options = {
-//         hostname: "api.opendota.com",
-//         path: '/api/heroes',
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//     }}
-
-//     const newRequest = http.request(options, res => {
-//         console.log(res.statusCode);
-//         res.on('data', newData => {
-//             process.stdout.write(newData)
-//         })
-//     })
-//     newRequest.on('error', error => {
-//         console.error('This request was not successful', error.stack);
-//     })
-//     let heroes = newRequest;
-//     console.log(heroes.body)
-// });   
 
 module.exports = startServer;
