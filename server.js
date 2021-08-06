@@ -16,7 +16,9 @@ const server = http.createServer((req, res) => {
     // `res` is an http.ServerResponse, which is a writable stream.
     headerOptions(req, res);
     routeHandler(req, res);
-    // const heroes = farfetch.get('https://api.opendota.com/api/heroes');
+    const heroes = farfetch.getRequest('https://api.opendota.com/api/heroes');
+    console.log(heroes);
+    res.end();
 })
 
 const start = (PORT, HOST, BACKLOG) => {

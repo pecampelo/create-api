@@ -1,5 +1,3 @@
-const { readdirSync } = require('fs');
-const { request } = require('http');
 const https = require('https');
 
 function evaluateRequest(res) {
@@ -15,20 +13,26 @@ function evaluateRequest(res) {
     } 
 }
 
-async function get(url) {
+function getRequest(url) {
+    this.url = url;
     https.get(url, res => {
-        evaluateRequest(res)
-        let unparsedData = [];
+        this.url = url;
+        this.res = res;
+        evaluateRequest(res);
+        let data = [];
+        let parsedData = [];
         res.on('data', chunk => {
-            unparsedData.push(chunk);
+            data.push(chunk);
         })
         res.on('end', () => {
-            let parsedData = JSON.parse(Buffer.concat(unparsedData).toString());
+            let parsedData = JSON.parse(Buffer.concat(data).toString());
+            return parsedData;
         })   
-    })   
-    
+        console.log(Object.keys(parsedData));
+    }
+    )      
 }
 
 module.exports = {
-    get
+    getRequest
 }
