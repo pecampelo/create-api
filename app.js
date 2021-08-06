@@ -1,7 +1,7 @@
-const startServer = require('./server');
+const { start } = require('./server');
 
-const PORT = 8001;
-const HOST = 'localhost';
-const BACKLOG = 2;
+const PORT = process.env.PORT || 8001;
+const HOST = process.env.HOST || 'localhost';
+const BACKLOG = process.env.BACKLOG || 2;
 
-startServer(PORT, HOST, BACKLOG);
+start(PORT, HOST, BACKLOG);
