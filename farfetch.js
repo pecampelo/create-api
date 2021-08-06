@@ -1,6 +1,7 @@
+const http = require('http');
 const https = require('https');
 
-function evaluateRequest(res) {
+function warnRequestStatus(res) {
     const headers = res.headers;
     if (res.statusCode === 200) {
         const headerDate = headers && headers.date ? headers.date : 'no response date';
@@ -13,24 +14,27 @@ function evaluateRequest(res) {
     } 
 }
 
+function evaluateRequest(clearance) {
+    return clearance ? true : false;
+}
+
+function receiveFormattedJSON(res) {
+    let data = [];
+    res.on('data', chunk => {
+        data.push(chunk);
+    })
+    res.on('end', () => {
+        let parsedData = JSON.parse(Buffer.concat(data).toString());
+        console.log(parsedData);
+    });
+}  
+
 function getRequest(url) {
-    this.url = url;
     https.get(url, res => {
-        this.url = url;
-        this.res = res;
-        evaluateRequest(res);
-        let data = [];
-        let parsedData = [];
-        res.on('data', chunk => {
-            data.push(chunk);
-        })
-        res.on('end', () => {
-            let parsedData = JSON.parse(Buffer.concat(data).toString());
-            return parsedData;
-        })   
-        console.log(Object.keys(parsedData));
-    }
-    )      
+        let requestStatus = warnRequestStatus(res);
+        let permission = evaluateRequest(requestStatus);
+        permission === true ? receiveFormattedJSON(res) : console.log('Request not possible');
+    });      
 }
 
 module.exports = {
