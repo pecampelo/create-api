@@ -1,10 +1,16 @@
-function allowedRoute(req, res) {
+function notFoundHandler(req, res) {
+    res.write(JSON.stringify({
+        "message": "Not Found",    
+        "urlRequested": req.url
+    }));
+}
+
+function mainRoute(req, res) {
     res.write(JSON.stringify({
         "message": "Hello World!",    
         "urlRequested": req.url,
         "bodyRequest": `${req.body}`,
     }));
-    return true;
 }
 
 function notFoundHandler(req, res) {
@@ -14,18 +20,14 @@ function notFoundHandler(req, res) {
     }));
 }
 
-function routeHandler(req, res) {
-    let routePermission = [];
-    if (req.url === '/' && req.method === "GET") {
-        allowedRoute(req, res);
-        return routePermission = [{
-            "permission" : true
-        }];
+function routeHandler(req, res, method_token) {
+    if (method_token !== 'granted') return notFoundHandler(req, res);
+    else {
+        mainRoute(req, res);
     }
-    else { notFoundHandler(req, res); }
-    return routePermission;
 }
 
 module.exports = {
+    notFoundHandler,
     routeHandler
 }
