@@ -1,12 +1,11 @@
 function methodHandler(req) {
-    const { method} = req;
+    const { method } = req;
     let method_token = '';
-    if (method === 'GET') {
-        return method_token = 'granted'
+    if (method === 'GET')  return method_token = true;
+    if (method !== 'POST' || method === 'PUT' || method === 'DELETE'){         
+        method_token = 'possible';
     }
-    if (method === 'POST' || method === 'PUT' || method === 'DELETE'){
-        method_token = 'route_token needed to grant access'
-    }
+    else { return method_token = false}
 }
 
 module.exports = {
