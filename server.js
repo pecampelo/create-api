@@ -67,8 +67,8 @@ const server = http.createServer((req, res) => {
 const startAPI = () => {
     setTimeout(() => {
         const request = farfetch.request('get', 'https://api.opendota.com/api/heroes');
-        const requestsMade = [];
-        requestsMade.push(request);
+        // const requestsMade = [];
+        // requestsMade.push(request);
 
 
 
@@ -79,15 +79,11 @@ const startAPI = () => {
 }
 
 const startServer = (PORT, HOST, BACKLOG) => {
-    server.listen({
-        port: PORT, 
-        host: HOST, 
-        exclusive: true 
-        }, 
-        BACKLOG,
-        () => { console.log(`Server is running at http://${HOST}:${PORT}`) }
-    );
-    
+    server.listen({ port: PORT, host: HOST, exclusive: true}, 
+        BACKLOG, 
+        () => { 
+            console.log(`Server is running at http://${HOST}:${PORT}`) 
+    }) 
 }
 
 module.exports = {

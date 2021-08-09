@@ -26,6 +26,7 @@ function notFoundHandler(req, res, method_token) {
     route_token = false;
     res.write(JSON.stringify({
         "message": "Not Found",
+        "method_token": method_token,
         "route_token": route_token,
         "urlRequested": req.url
         })
