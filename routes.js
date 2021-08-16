@@ -22,8 +22,7 @@ function permittedRoute(req, res, method_token) {
         return route_token = false }
 }
 
-function notFoundHandler(req, res, method_token) {
-    route_token = false;
+function notFoundHandler(req, res, method_token, route_token) {
     res.write(JSON.stringify({
         "message": "Not Found",
         "method_token": method_token,

@@ -28,13 +28,11 @@ const server = http.createServer((req, res) => {
     // validate HTTP request method
         route_token = routeHandler(req, res, method_token);
 
-        if (route_token === true) {
+        if (route_token === true || route_token === 'possible') {
         // validate HTTP route
-            console.log(`Request made by ${user} is doable. Will give a response`);
+                console.log(`Request made by ${user} is allowed.`);
 
-            startAPI();
-            // API features to be added here.
-
+                // Code will come here!
 
 
 
@@ -47,24 +45,26 @@ const server = http.createServer((req, res) => {
 
 
 
-        } else {
 
-            notFoundHandler(req, res)  
-        }
 
-    } else {   
 
-        notFoundHandler(req, res)  
 
-    }
+
+
+
+        } 
+        else { notFoundHandler(req, res, method_token, route_token) }
+    } 
+    else { notFoundHandler(req, res, method_token) }
+    console.log(`No more data in response.`)
     res.end();
 
     // server.once('connection', (req, res) => {
-    //     console.log(`User connected from ${ip}:${port}`);
+    //     console.log(`User connected from ${user}`);
     // });
 });
 
-const startAPI = () => {
+async function farfetchAPI() {
     setTimeout(() => {
         const request = farfetch.request('get', 'https://api.opendota.com/api/heroes');
         // const requestsMade = [];
@@ -75,7 +75,7 @@ const startAPI = () => {
 
 
 
-    }, 2000);
+    }, 4000);
 }
 
 const startServer = (PORT, HOST, BACKLOG) => {

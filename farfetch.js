@@ -35,11 +35,11 @@ function receiveFormattedJSON(res) {
 }  
 
 function get(url) {
-    https.get(url, res => {
+    return https.get(url, async (res => {
         let requestStatus = warnResponseStatus(url, res);
         let permission = evaluateRequest(requestStatus);
         permission === true ? receiveFormattedJSON(res) : console.log('Request not possible');
-    });      
+    }));      
 }
 
 // function post(url) {
