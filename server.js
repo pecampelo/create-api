@@ -1,7 +1,7 @@
 const http = require('http');
+const app = require('./app');
 const farfetch = require('./farfetch');
-const { methodHandler } = require('./methods');
-const { routeHandler, notFoundHandler, ignoreFavicon } = require('./routes');
+const { routeHandler, notFoundHandler, methodHandler } = require('./routes');
 
 const headerOptions = (req, res) => {
     res.removeHeader('Connection', 'X-Powered-By');
@@ -11,26 +11,35 @@ const headerOptions = (req, res) => {
 }
 
 const server = http.createServer((req, res) => {
-    // Request
     //
-    // `req` is an http.IncomingMessage, which is a readable stream.
+    // Request =>> `req` is an http.IncomingMessage, which is a readable stream.
     //
-    let user = `${req.socket.localAddress}:${req.socket.localPort}`;
-    let method_token, route_token;
-    // declare token so it can store tokens inherited from functions.
+    // UserSocket =>>  
+    // object used to store tokens and general server information
+    // that can be stored and later used or inherited.
+    // 
+    const userSocket = {
+        address: req.socket.localAddress + ':' + req.socket.localPort,
+        password_token: false,
+        method_token: '',
+        route_token: '', 
+    }
+    
 
-    method_token = methodHandler(req);
-    // `res` is an http.ServerResponse, which is a writable stream.
+    userSocket.method_token = methodHandler(req);    
+    // Launch method handler to validate.
+
     headerOptions(req, res);
     // give headers to response;
 
-    if (method_token === true ) {
-    // validate HTTP request method
-        route_token = routeHandler(req, res, method_token);
+    if (userSocket.method_token === true ) {                       // validate HTTP request method
+        userSocket.route_token = routeHandler(req, res, userSocket);
+        
+        if (userSocket.route_token === true || userSocket.route_token === 'possible') { // validate HTTP route
+      
+                console.log(`Request made by ${userSocket.address} is allowed.`);
 
-        if (route_token === true || route_token === 'possible') {
-        // validate HTTP route
-                console.log(`Request made by ${user} is allowed.`);
+                // `res` is an http.ServerResponse, which is a writable stream.
 
                 // Code will come here!
 
@@ -41,48 +50,30 @@ const server = http.createServer((req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         } 
-        else { notFoundHandler(req, res, method_token, route_token) }
+        else { notFoundHandler(req, res, userSocket) }
     } 
-    else { notFoundHandler(req, res, method_token) }
+    else { notFoundHandler(req, res, userSocket) }
+    
+
+
+
+
     console.log(`No more data in response.`)
     res.end();
 
-    // server.once('connection', (req, res) => {
-    //     console.log(`User connected from ${user}`);
-    // });
+    server.on('connection', (stream) => {
+        console.log(`User from ${userSocket.address} has connected`);
+    });
 });
 
-async function farfetchAPI() {
-    setTimeout(() => {
-        const request = farfetch.request('get', 'https://api.opendota.com/api/heroes');
-        // const requestsMade = [];
-        // requestsMade.push(request);
-
-
-
-
-
-
-    }, 4000);
-}
-
-const startServer = (PORT, HOST, BACKLOG) => {
-    server.listen({ port: PORT, host: HOST, exclusive: true}, 
-        BACKLOG, 
-        () => { 
-            console.log(`Server is running at http://${HOST}:${PORT}`) 
+async function startServer(options) {
+    server.listen(options, () => { 
+        if (server.listening === true) {
+            console.log(`Server is running on ${options.host}:${options.port}`);
+        } else { 
+            console.log (`Something wrong happened!`)
+        }
     }) 
 }
 

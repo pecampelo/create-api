@@ -23,7 +23,7 @@ function parse(data) {
 function receiveFormattedJSON(res) {
     let data = [];
     res.on('data', (chunk) => data.push(chunk))
-    res.on('end', () => console.log('No more data in response.'));
+    res.on('end', () => console.log('No more data to receive.'));
     // setTimeout(() => {
     //     parse(data);
     //     console.log(parsedData);

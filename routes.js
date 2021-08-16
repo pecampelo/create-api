@@ -1,48 +1,43 @@
-function notFoundHandler(req, res) {
-    res.write(JSON.stringify({
-        "message": "Not Found",    
-        "urlRequested": req.url
-        })
-    );
-}
+const { messageAllowedRequest, messageNotFound } = require('./models')
 
-function permittedRoute(req, res, method_token) {
-    const { url } = req;
+function permittedRoute(req, res, userSocket) {
+    let { url } = req;
+    let { route_token } = userSocket;
     if (url === '/') {
         let route_token = true;
-        res.write(JSON.stringify({
-            "message": "Hello World!",    
-            "urlRequested": req.url,
-            "method_token": method_token,
-            "route_token": route_token,
-            "bodyRequest": `${req.body}`,
-        }))
+        res.write(messageAllowedRequest(req, userSocket))
         return route_token = true;
     } else { 
-        return route_token = false }
+        return route_token = false 
+    }
 }
 
-function notFoundHandler(req, res, method_token, route_token) {
-    res.write(JSON.stringify({
-        "message": "Not Found",
-        "method_token": method_token,
-        "route_token": route_token,
-        "urlRequested": req.url
-        })
-    )
+function notFoundHandler(req, res, userSocket) {
+    let { route_token } = userSocket;
+    route_token = route_token === '' ? '?' : route_token;
+    res.write(messageNotFound(req, userSocket));
 }
 
-function routeHandler(req, res, method_token) {
+function routeHandler(req, res, userSocket) {
+    let { method_token, route_token } = userSocket;
     if (method_token === true || method_token === 'possible') {
-        return route_token = permittedRoute(req, res, method_token);
+        return route_token = permittedRoute(req, res, userSocket);
     }
     else {
-        return notFoundHandler(req, res, method_token);
+        return notFoundHandler(req, res, userSocket);
     }
 }
 
+function methodHandler(req) {
+    const { method } = req;
+    let method_token = '';
+    if (method === 'GET')  return method_token = true;
+    if (method !== 'POST' || method === 'PUT' || method === 'DELETE') return method_token = 'possible'; 
+    else { return method_token = false}
+}
 
 module.exports = {
     notFoundHandler,
-    routeHandler
+    routeHandler, 
+    methodHandler
 }
