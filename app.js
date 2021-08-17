@@ -1,7 +1,11 @@
 const { startServer } = require('./server');
+const test = require('./tests/testHandler')
 
-const PORT = process.env.PORT || 8001;
-const HOST = process.env.HOST || 'localhost';
-const BACKLOG = process.env.BACKLOG || 2;
+const options = {
+    port: process.env.PORT || 8001,
+    host: process.env.HOST || '127.0.0.1',
+    exclusive: true,
+    backlog: process.env.BACKLOG || 2
+}
 
-startServer(PORT, HOST, BACKLOG);
+startServer(options);
