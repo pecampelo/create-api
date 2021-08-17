@@ -1,7 +1,6 @@
 const http = require('http');
-const app = require('./app');
-const farfetch = require('./farfetch');
-const { routeHandler, notFoundHandler, methodHandler } = require('./routes');
+const { routeHandler, notFoundHandler } = require('./controllers/routes');
+const { methodHandler } = require('./controllers/methods')
 
 const headerOptions = (req, res) => {
     res.removeHeader('Connection', 'X-Powered-By');
@@ -62,12 +61,12 @@ const server = http.createServer((req, res) => {
     console.log(`No more data in response.`)
     res.end();
 
-    server.on('connection', (stream) => {
+    server.once('request', () => {
         console.log(`User from ${userSocket.address} has connected`);
     });
 });
 
-async function startServer(options) {
+function startServer(options) {
     server.listen(options, () => { 
         if (server.listening === true) {
             console.log(`Server is running on ${options.host}:${options.port}`);

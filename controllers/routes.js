@@ -1,12 +1,11 @@
-const { messageAllowedRequest, messageNotFound } = require('./models')
+const { messageAllowedRequest, messageNotFound } = require('../models/messages')
 
 function permittedRoute(req, res, userSocket) {
     let { url } = req;
-    let { route_token } = userSocket;
     if (url === '/') {
-        let route_token = true;
+        userSocket.route_token = true;
         res.write(messageAllowedRequest(req, userSocket))
-        return route_token = true;
+        return userSocket.route_token = true;
     } else { 
         return route_token = false 
     }
@@ -21,7 +20,8 @@ function notFoundHandler(req, res, userSocket) {
 function routeHandler(req, res, userSocket) {
     let { method_token, route_token } = userSocket;
     if (method_token === true || method_token === 'possible') {
-        return route_token = permittedRoute(req, res, userSocket);
+        let route_token = permittedRoute(req, res, userSocket);
+        return route_token;
     }
     else {
         return notFoundHandler(req, res, userSocket);

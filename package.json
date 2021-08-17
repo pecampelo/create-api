@@ -1,7 +1,7 @@
 {
-  "name": "dota-api",
+  "name": "create-api",
   "version": "1.0.0",
-  "description": "An API to access Dota 2 information coded in Node.",
+  "description": "API Generator for web applications",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",

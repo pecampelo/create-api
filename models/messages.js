@@ -1,8 +1,6 @@
 function messageNotFound(req, userSocket) {
     const { url, body } = req;
-    const mainURL = '/'
     const { method_token, route_token } = userSocket;
-    console.log(userSocket)
     return JSON.stringify({
         "message": "Not Found",
         "urlRequested": url,
@@ -15,13 +13,13 @@ function messageNotFound(req, userSocket) {
 }
 
 function messageAllowedRequest(req, userSocket) {
-    const { url, body } = req;
-    const { method_token, route_token } = userSocket;
+    let { url, body } = req;
+    let { method_token, route_token } = userSocket;
     let bodyResponse = 'undefined';
     return JSON.stringify({
         "message": "Welcome to my _____ API!",
         "urlRequested": url,
-        "bodyRequest": 'undefined',
+        "bodyRequest": body,
         "method_token": method_token,
         "route_token": route_token,
         "bodyResponse": bodyResponse
