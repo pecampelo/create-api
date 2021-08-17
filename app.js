@@ -9,5 +9,3 @@ const options = {
 }
 
 startServer(options);
-
-module.exports = options;
