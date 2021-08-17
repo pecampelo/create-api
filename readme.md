@@ -5,10 +5,10 @@ Burgers, Pokémon, Headphones and more.
 
 ## Features
 
-- [ ] Header Options
-- [ ] Route Handlers: Permitted, Not Found w/ Suggestions 
-- [ ] Method Handlers
-- [ ] Function to create 20+ routes
+- [X] Header Options
+- [X] Route Handlers: Permitted, Not Found
+- [X] Method Handlers
+- [ ] Function to create a route
 - [ ] Authentication
 - [ ] connect to a MongoDB database
 - [ ] Setup connection to front-end
@@ -16,19 +16,34 @@ Burgers, Pokémon, Headphones and more.
 - [ ] Limit query per hour and per user
 - [ ] Timeout after 30s
 - [ ] Maintain session state
+- [ ] Suggestions for Routes
 - [ ] User Authentication
 - [ ] CORS
 - [ ] Documentation
 
 ### Documentation
 
-- A description of the API
-- Links to technical references and guides
-- How to set up the project as a developer
-- How to test the project
-- How to deploy the project
-- Dependency management
-- Contribution guide
-- Code of conduct
-- License
-- Gratitude
+- [ ] A description of the API
+- [ ] Links to technical references and guides
+- [ ] How to set up the project as a developer
+- [ ] How to test the project
+- [ ] How to deploy the project
+- [ ] Dependency management
+- [ ] Contribution guide
+- [ ] Code of conduct
+- [ ] License
+- [ ] Gratitude
+
+
+
+
+
+
+
+
+
+
+
+
+
+
