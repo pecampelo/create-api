@@ -4,9 +4,9 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 
 ## Setup
 
-> npm i create-node-api-generator
-> ...
-> or https://www.npmjs.com/package/create-node-api-generator
+- npm i create-node-api-generator
+
+- https://www.npmjs.com/package/create-node-api-generator
 
 ## Features
 - JSON output
