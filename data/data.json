@@ -1,3 +1,14 @@
 {
-    "message": "new .json file"
+    "users": [
+        {
+            "id": 1,
+            "name": "Pedro Henrique Campelo Matheus",
+            "age": 25
+        },
+        {
+            "id": 2,
+            "name": "Kimberly Borges Valério",
+            "age": 28
+        }
+    ]
 }

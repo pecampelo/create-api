@@ -1,12 +1,16 @@
-let statusCode, urlRequested, bodyRequest, method_token, route_token, bodyResponse;
-
-const responsePossibilities = [
+const defaultPossibilities = [
   {
-    "apiMessage": [ "Welcome to the _____ API!", "Not Found" ]
+    "apiMessage": [ "Welcome to the Restaurant API!", "Not Found 🎁" ]
   }, 
   {
     "endpoints": [ '/', '/api', '/api/users', '/api/docs' ]
   }, 
+  {
+    "bodyRequest": [ '', 'empty', "GET method only, and you can try these endpoints: /api , /api/songs , /api/heroes" ]
+  },
+  {
+    "bodyResponse": [ undefined, '' ]
+  },
   {
     "method_token": [ true, 'possible', false ]
   }, 
@@ -14,28 +18,10 @@ const responsePossibilities = [
     "route_token":  [ true, 'possible', false ]
   }, 
   {
-    "bodyResponse": [ '', 'empty', "GET method only, and you can try these endpoints: /api , /api/songs , /api/heroes" ]
-  }
+    "entry_token":  [ 'allowed', 'denied', 'not-found' ]
+  }, 
 ]
 
-const keys = []; 
-
-responsePossibilities.forEach((property) => {
-  let key = Object.keys(property)[0];
-  keys.push(key);
-})
-
-const values = [];
-
-responsePossibilities.forEach((property) => {
-  let array = Object.values(property)[0];
-  values.push(array)
-})
-
-console.log(values);
-
-
 module.exports = {
-  responsePossibilities,
-  keys
+  defaultPossibilities
 }

@@ -1,40 +1,33 @@
-const { responsePossibilities, keys } = require('./defaultData');
+const { defaultPossibilities } = require('./defaultData');
 
-function bodyFormatter(body) {
-    if (body === undefined) return '';
-    if (body !== '') return body;
-    else {}
-}
+const defaultKeys = [], defaultValues = [];
 
-const { apiMessage, endpoints } = responsePossibilities
+defaultPossibilities.forEach((property) => {
+  let valueArrays = Object.values(property)[0];
+  let key = Object.keys(property)[0];
+  defaultKeys.push(key);
+  defaultValues.push(valueArrays);
+})
 
-async function writeMessage(gateway) {
-  let messageData;
-  if (gateway === 'allowed') messageData = [apiMessage[0], endpoints[0]];
-  if (gateway === 'not-found') messageData = [apiMessage[1], endpoints[1]];
-  else {} 
-  let formattedMessage = await messageFormatter(messageData)
-  return formattedMessage
-}
+// function checkIfMessageIsDefaulted(defaultKeys, defaultValues, data) {
+//   let formattedMessage = {}
+//   for (let key in keys) {
+//     let string = key.toString();
+//     for (let value in values) {
+//       if (value === string) {
+//         formattedMessage.key = value;
+//         break;
+//       } else {}
+//     }
+//   }
+// }
 
+// write function that checks defaulter
 
-function messageFormatter(keys, values) {
-  let formattedMessage = {}
-  for (let key in keys) {
-    let string = key.toString();
-    for (let value in values) {
-      if (value === string) {
-        formattedMessage.key = value;
-        break;
-      } else {}
-    }
-  }
-}
+// if not in defaulter and it is allowed, it should store the data in a variable
+// that will request to pull variable into response possibilities.
 
-
-// write function that checks response possibilities
-
-module.exports = {
-    bodyFormatter, 
-    messageFormatter
+module.exports = { 
+    defaultKeys, 
+    defaultValues
 }
