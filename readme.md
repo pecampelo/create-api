@@ -2,6 +2,12 @@
 
 This is a lightweight boilerplate for creating APIs. It does not require any npm libraries except for the in-built Node modules, so it usually requires some handiwork and a trial-and-error process, but this compensates for its speed and minimalism.
 
+## Setup
+
+> npm i create-node-api-generator
+> ...
+> or https://www.npmjs.com/package/create-node-api-generator
+
 ## Features
 - JSON output
 - Custom Headers that removed some possibly vulnerable headers

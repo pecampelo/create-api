@@ -1,5 +1,5 @@
 {
-  "name": "create-api",
+  "name": "create-node-api-generator",
   "version": "1.0.0",
   "description": "API Generator for web applications",
   "main": "app.js",
