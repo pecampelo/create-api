@@ -1,5 +1,5 @@
 const { startServer } = require('./server');
-const test = require('./tests/testHandler')
+// const test = require('./tests/testHandler')
 
 const options = {
     port: process.env.PORT || 8001,
