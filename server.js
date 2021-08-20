@@ -31,8 +31,10 @@ const server = http.createServer((req, res) => {
   tokens.getTokens(req, userSocket);
   
   const response = router.handler(req, res, userSocket); 
-  res.write(response)
-  console.log(`No more data in response.`) 
+  res.write(response);
+  console.log(userSocket.address + ' connected!');
+  console.log(`Response was sent`) 
+  console.log('...')
   res.end();  
 
   
@@ -47,7 +49,6 @@ function startServer(options) {
             console.log (`Something wrong happened!`)
         }
     }) 
-    
 }
 
 module.exports = {

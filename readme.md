@@ -1,13 +1,23 @@
 # create-api
 
-This program is a boilerplate for creating APIs about anything a user would want.
-Burgers, Pokémon, Headphones and more.
+This is a lightweight boilerplate for creating APIs. It does not require any npm libraries except for the in-built Node modules, so it usually requires some handiwork and a trial-and-error process, but this compensates for its speed and minimalism.
 
 ## Features
+- JSON output
+- Custom Headers that removed some possibly vulnerable headers
+- Separate reusable models that handle messaging and defaulting data
+- Custom Route Handler.
+- Method, Route and Entry Tokens that allow or deny access to data.
+## To-Do list
 
 - [X] Header Options
 - [X] Route Handlers: Permitted, Not Found
 - [X] Method Handlers
+- [X] Customizable Default Response Files
+- [X] All types of Requests Working
+- [X] Ready for 1st publish
+- [ ] XML
+- [ ] Plain Text
 - [ ] Function to create a route
 - [ ] Authentication
 - [ ] connect to a MongoDB database
