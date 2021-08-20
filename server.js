@@ -1,5 +1,6 @@
 const http = require('http');
 const router = require('./controllers/router');
+const tokens  = require('./controllers/tokens')
 
 const headerOptions = (req, res) => {
     res.removeHeader('Connection', 'X-Powered-By');
@@ -18,10 +19,6 @@ const server = http.createServer((req, res) => {
   // 
   headerOptions(req, res)
 
-  server.once('request', () => {
-    console.log(`User from ${userSocket.address} has connected`);
-  });
-
   let userSocket = {
     address: req.socket.localAddress + ':' + req.socket.localPort,
     bodyRequest: req.body,
@@ -31,14 +28,15 @@ const server = http.createServer((req, res) => {
     entry: ''
   }
   
-  router.getTokens(req, userSocket);
+  tokens.getTokens(req, userSocket);
   
-  router.handler(req, res, userSocket);
+  const response = router.handler(req, res, userSocket); 
+  res.write(response)
+  console.log(`No more data in response.`) 
+  res.end();  
+
   
-  console.log(`No more data in response.`)
-    
-    // `res` is an http.ServerResponse, which is a writable stream.
-  res.end();
+  // `res` is an http.ServerResponse, which is a writable stream.
 });
 
 function startServer(options) {

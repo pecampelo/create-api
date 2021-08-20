@@ -1,24 +1,38 @@
+const { endpoints } = require('./endpoints')
+
 const defaultPossibilities = [
   {
-    "apiMessage": [ "Welcome to the Restaurant API!", "Not Found 🎁" ]
+    "id": 0,
+    "apiMessage": [ "Welcome to the DotA API!", "Not Found 🎁" ]
   }, 
   {
-    "endpoints": [ '/', '/api', '/api/users', '/api/docs' ]
+    "id": 1,
+    "endpoint": endpoints
   }, 
   {
-    "bodyRequest": [ '', 'empty', "GET method only, and you can try these endpoints: /api , /api/songs , /api/heroes" ]
+    "id": 2,
+    "bodyRequest": [ '', 'empty' ]
   },
   {
-    "bodyResponse": [ undefined, '' ]
-  },
-  {
+    "id": 3,
     "method_token": [ true, 'possible', false ]
   }, 
   {
-    "route_token":  [ true, 'possible', false ]
+    "id": 4,
+    "route_token":  [ true, 'possible', false, '?' ]
   }, 
   {
+    "id": 5,
     "entry_token":  [ 'allowed', 'denied', 'not-found' ]
+  },
+  { 
+    "id": 6,
+    "bodyResponse": [ 
+      undefined, 
+      '' , 
+      'empty', 
+      'Response will come here', 
+      ["Please only use GET method", `You can try these endpoints: `, endpoints]]
   }, 
 ]
 

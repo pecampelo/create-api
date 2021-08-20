@@ -3,8 +3,8 @@ const { defaultPossibilities } = require('./defaultData');
 const defaultKeys = [], defaultValues = [];
 
 defaultPossibilities.forEach((property) => {
-  let valueArrays = Object.values(property)[0];
-  let key = Object.keys(property)[0];
+  let valueArrays = Object.values(property)[1];
+  let key = Object.keys(property);
   defaultKeys.push(key);
   defaultValues.push(valueArrays);
 })
