@@ -1,25 +1,19 @@
 const http = require('http');
+const headers = require('./controllers/headers')
 const router = require('./controllers/router');
 const tokens  = require('./controllers/tokens')
 
-const headerOptions = (req, res) => {
-    res.removeHeader('Connection', 'X-Powered-By');
-    res.writeHead(200, { 
-        "Content-Type": "application/json", 
-        'Access-Control-Allow-Origin': '' })
-}
-
 const server = http.createServer((req, res) => {
-  //
-  // Request =>> `req` is an http.IncomingMessage, which is a readable stream.
-  //
-  // UserSocket =>>  
-  // object used to store tokens and general server information
-  // that can be stored and later used or inherited.
-  // 
-  headerOptions(req, res)
+ 
+  headers.requestOptions(req, res);
+  
+  // TODO : EXTRACT API TOKEN FROM URL
 
-  let userSocket = {
+  // UserSocket =>> object used to store tokens 
+  // and general server information that can be later used.
+  
+
+  const userSocket = {
     address: req.socket.localAddress + ':' + req.socket.localPort,
     bodyRequest: req.body,
     api_token: false,
@@ -27,28 +21,36 @@ const server = http.createServer((req, res) => {
     route_token: '',
     entry: ''
   }
+
+  tokens.getTokens(req, userSocket); 
+
+  // TODO: Extract entry from token
   
-  tokens.getTokens(req, userSocket);
+
+  headers.responseOptions('allowed', res);
   
-  const response = router.handler(req, res, userSocket); 
+  
+  
+  const response = router.handler(req, userSocket); 
   res.write(response);
+
   console.log(userSocket.address + ' connected!');
   console.log(`Response was sent`) 
   console.log('...')
-  res.end();  
 
-  
-  // `res` is an http.ServerResponse, which is a writable stream.
+  res.end();
+
 });
 
 function startServer(options) {
-    server.listen(options, () => { 
-        if (server.listening === true) {
-            console.log(`Server is running on ${options.host}:${options.port}`);
-        } else { 
-            console.log (`Something wrong happened!`)
-        }
-    }) 
+  
+  server.listen(options, () => { 
+    if (server.listening === true) {
+      console.log(`Server is running on ${options.host}:${options.port}`);
+    } else { 
+      console.log (`Something wrong happened!`)
+    }
+  })
 }
 
 module.exports = {

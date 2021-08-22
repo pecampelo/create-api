@@ -1,6 +1,6 @@
 const { sendMessage } = require('./messager');
 
-function handler(req, res, userSocket) {
+function handler(req, userSocket) {
   const { entry } = userSocket;
   if (entry === 'allowed' || 'denied') {
     const message = sendMessage(entry, req, userSocket);

@@ -22,6 +22,8 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [X] Customizable Default Response Files
 - [X] All types of Requests Working
 - [X] Ready for 1st publish
+- [ ] Request Body showing
+- [ ] Getting data to JSON files
 - [ ] XML
 - [ ] Plain Text
 - [ ] Function to create a route
