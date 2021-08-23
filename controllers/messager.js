@@ -1,4 +1,5 @@
-const { defaultKeys, defaultValues } = require('../models/formatter') 
+const { defaultKeys, defaultValues } = require('../models/formatter');
+const filehandler = require('./filehandler')
 
 function sendMessage(entry, req, userSocket) {
   const endpoint = req.url
@@ -15,8 +16,13 @@ function bodyFormatter(body) {
   else {}
 }
 
+
+// TODO: change output based on Url requested;
+const bodyResponse = filehandler.read('./data/heroes.json')
+
 function formatMessage(entry, data) {
   let message;
+  // let bodyResponse = await filehandler.read('./data/heroes.json')
   if (entry === 'allowed') { 
     message = {
       [defaultKeys[0][1]]: defaultValues[0][0] + ' 🎈', 
@@ -25,7 +31,7 @@ function formatMessage(entry, data) {
       [defaultKeys[3][1]]: data[2],
       [defaultKeys[4][1]]: data[3],
       [defaultKeys[5][1]]: data[4],
-      [defaultKeys[6][1]]: defaultValues[6][3] + ' 🎈',
+      [defaultKeys[6][1]]: bodyResponse + ' 🎈',
     }
     return message;
   }

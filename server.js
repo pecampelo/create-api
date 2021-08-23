@@ -1,52 +1,59 @@
 const http = require('http');
-const headers = require('./controllers/headers')
+const options = require('./config/options');
 const router = require('./controllers/router');
-const tokens  = require('./controllers/tokens')
+const tokens  = require('./controllers/tokener');
+const logger = require('./config/logger');
+const EventEmitter = require('events')
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
  
-  headers.requestOptions(req, res);
-  
-  // TODO : EXTRACT API TOKEN FROM URL
+  options.requestHeaderOptions(req);
 
-  // UserSocket =>> object used to store tokens 
-  // and general server information that can be later used.
-  
+  if (req.url === '/favicon.ico') { return res.end() }
+    // TODO : EXTRACT API TOKEN FROM URL
 
+    // UserSocket =>> object used to store tokens 
+    // and general server information that can be later used.
   const userSocket = {
     address: req.socket.localAddress + ':' + req.socket.localPort,
+    request: [ req.url, req.method],
     bodyRequest: req.body,
     api_token: false,
     method_token: '',
     route_token: '',
     entry: ''
   }
+  
+  logger.requestEnded(userSocket);
 
   tokens.getTokens(req, userSocket); 
 
   // TODO: Extract entry from token
   
 
-  headers.responseOptions('allowed', res);
+  options.responseHeaderOptions('allowed', res);
   
   
+  const response = await router.handler(req, userSocket); 
   
-  const response = router.handler(req, userSocket); 
   res.write(response);
 
-  console.log(userSocket.address + ' connected!');
-  console.log(`Response was sent`) 
-  console.log('...')
+  logger.responseEnded();
 
   res.end();
 
+
+
+
 });
 
-function startServer(options) {
+function startServer(serverOptions) {
   
-  server.listen(options, () => { 
+  server.listen(serverOptions, () => { 
     if (server.listening === true) {
-      console.log(`Server is running on ${options.host}:${options.port}`);
+      console.log('...')
+      console.log(`Server is running on ${serverOptions.host}:${serverOptions.port}`);
+      console.log('...')
     } else { 
       console.log (`Something wrong happened!`)
     }

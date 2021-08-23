@@ -5,7 +5,12 @@ const endpoints = [
   '/dota/heroes'
 ]
 
-const parameters = []
+const parameters = [
+  'user',
+  'hero',
+  'email',
+  'location'
+]
 
 module.exports = {
   endpoints,

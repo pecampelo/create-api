@@ -1,18 +1,11 @@
 const { sendMessage } = require('./messager');
 
-function handler(req, userSocket) {
+async function handler(req, userSocket) {
   const { entry } = userSocket;
-  if (entry === 'allowed' || 'denied') {
-    const message = sendMessage(entry, req, userSocket);
-    return message;
-  } 
-  if (entry === 'not-found') {
-    const message = notFoundHandler(req, userSocket) 
-    return message;
-  }
-  else {
-    return console.log('Error!')
-  }
+  let message = '';
+  if (entry === 'allowed' || 'denied') { return message = sendMessage(entry, req, userSocket); }
+  if (entry === 'not-found') { return message = notFoundHandler(req, userSocket); }
+  else {  return console.log('Error!')  }
 }
 
 function notFoundHandler(req, userSocket) {

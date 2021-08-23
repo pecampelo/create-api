@@ -1,10 +1,9 @@
-const requestOptions = (req) => {
-  let headers = req.headers;
+const requestHeaderOptions = (req) => {
+  const headers = req.headers;
   // TODO - add if statement that extracts req.headers[authToken]
 }
 
-
-const responseOptions = (entry, res) => { 
+const responseHeaderOptions = (entry, res) => { 
   let statusCode;
   if (entry === 'allowed') statusCode = 200;
   if (entry === 'denied') statusCode = 403;
@@ -16,10 +15,9 @@ const responseOptions = (entry, res) => {
       "X-Content-Type-Options": "nosniff"
   })   
 }
-
 // `res` is an http.ServerResponse, which is a writable stream.
 
 module.exports = { 
-  requestOptions,
-  responseOptions
+  requestHeaderOptions,
+  responseHeaderOptions
 }

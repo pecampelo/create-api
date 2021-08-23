@@ -1,9 +1,9 @@
-const { endpoints } = require('./endpoints')
+const { endpoints } = require('../data/endpoints')
 
 const defaultPossibilities = [
   {
     "id": 0,
-    "apiMessage": [ "Welcome to the DotA API!", "Not Found 🎁" ]
+    "apiMessage": [ "Welcome to my API!", "Not Found 🎁" ]
   }, 
   {
     "id": 1,

@@ -1,4 +1,4 @@
-const { endpoints } = require('../models/endpoints');
+const { endpoints } = require('../data/endpoints');
 
 function getTokens(req, userSocket) {
   try {
@@ -44,6 +44,10 @@ function entryTokenHandler(userSocket) {
     return entry = 'not-found';
   }
 }
+
+
+
+
 
 module.exports = { 
   getTokens,
