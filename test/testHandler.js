@@ -17,7 +17,8 @@ class Test {
   fail()  { 
     return { 
         "question" : `Is ${this.expected} === ${this.actual}?`,
-        "result":  `❌ Test has failed. Error message: `
+        "result":  `❌ Test has failed. `,
+        "message": `${this.expected} !== ${this.actual}`
     }
   }
 
@@ -33,8 +34,7 @@ class Test {
       console.log(this.success())
       console.log(this.continue())
     } catch (e) {
-      console.log(this.fail())
-      console.log('\n' + [e.message] )
+      console.log(this.fail(e))
       console.log(this.continue())
       }
     }
