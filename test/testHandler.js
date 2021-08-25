@@ -10,26 +10,26 @@ class Test {
   success() { 
     return {
         "question": `Is ${this.expected} === ${this.actual}?`,
-        "result": `✅ Test was successful`
+        "outcome": `✅ Test was successful`
     }
   }
   
-  fail()  { 
+  fail(error)  { 
     return { 
         "question" : `Is ${this.expected} === ${this.actual}?`,
-        "result":  `❌ Test has failed. `,
-        "message": `${this.expected} !== ${this.actual}`
+        "outcome":  `❌ Test has failed. `,
+        "message": `${this.expected} !== ${this.actual}`,
     }
   }
 
-  continue() { return `...\n`}
+  continue() { return `\n ...\n`}
 
   test() {
 
     // TODO  countTestDone()
 
       try {
-      console.log(`Test ------------ ${this.name}: \n`);
+      console.log(`🔨 Test ------------ ${this.name}: \n`);
       assert.strictEqual(this.expected, this.actual)
       console.log(this.success())
       console.log(this.continue())
@@ -39,14 +39,14 @@ class Test {
       }
     }
   
-  testQuickie() {
+  testQuickly() {
 
     try {
       assert.strictEqual(this.expected, this.actual)
       console.log(`✅ Test ${this.name} was successful`);
     } catch (e) {
       console.log(`❌ Test ${this.name} has failed`);
-      console.log(e.message);
+      console.log('\n' + e.message);
     }
   }
 }

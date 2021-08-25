@@ -8,7 +8,7 @@ const test4 = new Test('API Token is checked', 2, 2);
 const test5 = new Test('API enables access to user with Token', 1, 1);
 const test6 = new Test('GET Request to correct endpoint', 1, 1);
 const test7 = new Test('GET Request to wrong endpoint', 1, 1);
-const test8 = new Test('!GET Request to correct endpoint', 1, 1)
+const test8 = new Test('!GET Request to correct endpoint', 1, '1')
 const test9 = new Test('!GET Request to wrong endpoint', 1, 1);
 const test10 = new Test('!GET Request to wrong endpoint', 1, 1);
 
