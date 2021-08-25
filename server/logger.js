@@ -4,6 +4,11 @@ function requestEnded(socket) {
   `);
 }
 
+function data(response) {
+  console.log('\x1b[36m%s\x1b[0m', response);
+  console.log(`\n`)
+}
+
 function responseEnded() {
   console.log(`Response was sent. Closing response.`) 
   console.log('...')
@@ -11,5 +16,6 @@ function responseEnded() {
 
 module.exports = {
   requestEnded,
-  responseEnded
+  responseEnded,    
+  data
 }

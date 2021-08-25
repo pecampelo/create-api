@@ -1,4 +1,4 @@
-const { defaultKeys, defaultValues } = require('../models/formatter');
+const { defaultKeys, defaultValues } = require('../formatter/formatter');
 const filehandler = require('./filehandler')
 
 function sendMessage(entry, req, userSocket) {

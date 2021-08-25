@@ -9,7 +9,7 @@ defaultPossibilities.forEach((property) => {
   defaultValues.push(valueArrays);
 })
 
-// function checkIfMessageIsDefaulted(defaultKeys, defaultValues, data) {
+// function storeMessage(defaultKeys, defaultValues, data) {
 //   let formattedMessage = {}
 //   for (let key in keys) {
 //     let string = key.toString();

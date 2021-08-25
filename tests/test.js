@@ -1,5 +1,3 @@
 const assert = require('assert');
-
-
-startServer(options);
+const server = require('../server/server')
 

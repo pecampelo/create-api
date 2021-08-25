@@ -1,13 +1,13 @@
 const http = require('http');
-const options = require('./config/options');
-const router = require('./controllers/router');
-const tokens  = require('./controllers/tokener');
-const logger = require('./config/logger');
-const EventEmitter = require('events')
+const headers = require('./headers');
+const router = require('../controllers/router');
+const tokens  = require('../controllers/tokener');
+const logger = require('./logger');
+
 
 const server = http.createServer(async (req, res) => {
  
-  options.requestHeaderOptions(req);
+  headers.requestHeaderOptions(req);
 
   if (req.url === '/favicon.ico') { return res.end() }
     // TODO : EXTRACT API TOKEN FROM URL
@@ -31,11 +31,13 @@ const server = http.createServer(async (req, res) => {
   // TODO: Extract entry from token
   
 
-  options.responseHeaderOptions('allowed', res);
+  headers.responseHeaderOptions('allowed', res);
   
   
   const response = await router.handler(req, userSocket); 
-  
+
+  logger.data(response);
+
   res.write(response);
 
   logger.responseEnded();
