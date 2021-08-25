@@ -1,11 +1,12 @@
 const { startServer } = require('./server/server');
-// const test = require('./tests/testHandler')
+const test = require('./test/test')
+const { config } = require('./server/config')
 
-const options = {
-    host: process.env.HOST || '127.0.0.1',
-    port: process.env.PORT || 8001,
-    exclusive: true,
-    backlog: process.env.BACKLOG || 2
+const run = async () => {
+  // await test()
+  startServer(config)
 }
+startServer(config);
 
-startServer(options);
+run();
+

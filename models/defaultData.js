@@ -7,7 +7,7 @@ const defaultPossibilities = [
   }, 
   {
     "id": 1,
-    "endpoint": endpoints
+    "request": endpoints
   }, 
   {
     "id": 2,
@@ -23,10 +23,19 @@ const defaultPossibilities = [
   }, 
   {
     "id": 5,
-    "entry_token":  [ 'allowed', 'denied', 'not-found' ]
+    "entry":  [ 'allowed', 'denied', 'not-found' ]
   },
   { 
     "id": 6,
+    "bodyResponse": [ 
+      undefined, 
+      '' , 
+      'empty', 
+      'Response will come here', 
+      ["Please only use GET method", `You can try these endpoints: `, endpoints]]
+  }, 
+  { 
+    "id": 7,
     "bodyResponse": [ 
       undefined, 
       '' , 

@@ -1,5 +1,12 @@
 const requestHeaderOptions = (req) => {
+  if (req.url === '/favicon.ico') { return res.end() }
   const headers = req.headers;
+  let { api_token = '' } = req.headers;
+  
+  // function checkAPIAccessToken() {
+  //   return permission === false;
+  // }
+
   // TODO - add if statement that extracts req.headers[authToken]
 }
 

@@ -1,10 +1,9 @@
-const { defaultKeys, defaultValues } = require('../formatter/formatter');
+const { defaultKeys, defaultValues } = require('./filehandler');
 const filehandler = require('./filehandler')
 
 function sendMessage(entry, req, userSocket) {
-  const endpoint = req.url
-  const { bodyRequest, method_token, route_token } = userSocket;
-  const userValues = [endpoint, bodyRequest, method_token, route_token];
+  const { bodyRequest, request, method_token, route_token } = userSocket;
+  const userValues = [request, bodyRequest, method_token, route_token];
   const message = formatMessage(entry, userValues);
   const formattedMessage = JSON.stringify(message);
   return formattedMessage;
@@ -18,7 +17,7 @@ function bodyFormatter(body) {
 
 
 // TODO: change output based on Url requested;
-const bodyResponse = filehandler.read('./data/heroes.json')
+// const bodyResponse = filehandler.read('./data/heroes.json')
 
 function formatMessage(entry, data) {
   let message;
