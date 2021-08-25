@@ -1,3 +1,6 @@
+
+// TODO: Change to allowed 
+
 const endpoints = [
   '/',
   '/api',

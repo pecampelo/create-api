@@ -1,5 +1,5 @@
 const { defaultKeys, defaultValues } = require('./filehandler');
-const filehandler = require('./filehandler')
+// const filehandler = require('./filehandler')
 
 function sendMessage(entry, req, userSocket) {
   const { bodyRequest, request, method_token, route_token } = userSocket;
@@ -16,8 +16,9 @@ function bodyFormatter(body) {
 }
 
 
-// TODO: change output based on Url requested;
-// const bodyResponse = filehandler.read('./data/heroes.json')
+// TODO: change output based on parameters
+
+const bodyResponse = ''
 
 function formatMessage(entry, data) {
   let message;

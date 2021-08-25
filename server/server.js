@@ -44,9 +44,12 @@ const requestListener = async function(req, res) {
   headers.responseHeaderOptions('allowed', res);
   
   const response = await router.handler(req, userSocket); 
-  logger.data(response);
   res.write(response);
-  logger.saveLog()
+
+  // TODO : Fs. writeFile to logs.json
+  
+  // logger.saveLog()
+  
   logger.responseEnded();
   
   res.end();
