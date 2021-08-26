@@ -8,34 +8,36 @@ const tokens  = require('../controllers/tokener');
 const router = require('../controllers/router');
 
 const requestListener = async function(req, res) {
-
-  headers.requestHeaderOptions(req);
-
+  
+  
   // TODO : EXTRACT API TOKEN FROM URL  
   
   const requestURL = new URL('http://' + config.host + ':' + config.port + req.url)
-
-  console.log()
-
-  const searched = requestURL.search
-
+  
   const requestInfo = {
     'href': requestURL.href,
-    'origin': requestURL.origin,
-    'query': querystring.parse(searched.slice(1))
+    'pathname': requestURL.pathname,
+    "address": req.socket.localAddress + ':' + req.socket.localPort,
+    'query': querystring.parse(requestURL.search.slice(1)),
+    'method': req.method,
+    'bodyRequest' : req.body
   }
- 
-  
+
   const userSocket = {
-    address: req.socket.localAddress + ':' + req.socket.localPort,
-    request: requestInfo,
-    bodyRequest: req.body,
-    api_token: false,
+    api_token: '',
     method_token: '',
     route_token: '',
-    entry: ''
+    entry: '',
   }
-  logger.requestEnded(userSocket);
+
+  const responseInfo = {
+    bodyResponse: '',
+  }
+
+  headers.requestHeaderOptions(requestInfo, res)
+    
+  logger.requestEnded(requestInfo);
+
   
   tokens.getTokens(req, userSocket); 
   
@@ -55,7 +57,7 @@ const requestListener = async function(req, res) {
   res.end();
 }
 
-const server = http.createServer(requestListener);
+const server = http.createServer( requestListener);
 
 function startServer(config) {
   

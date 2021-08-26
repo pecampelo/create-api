@@ -36,12 +36,7 @@ const defaultPossibilities = [
   }, 
   { 
     "id": 7,
-    "bodyResponse": [ 
-      undefined, 
-      '' , 
-      'empty', 
-      'Response will come here', 
-      ["Please only use GET method", `You can try these endpoints: `, endpoints]]
+    "api_key": [ 'valid', 'invalid' ]
   }, 
 ]
 

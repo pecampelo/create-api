@@ -1,11 +1,12 @@
 const { defaultKeys, defaultValues } = require('./filehandler');
 // const filehandler = require('./filehandler')
 
-function sendMessage(entry, req, userSocket) {
+function sendMessage(entry, userSocket) {
   const { bodyRequest, request, method_token, route_token } = userSocket;
   const userValues = [request, bodyRequest, method_token, route_token];
   const message = formatMessage(entry, userValues);
   const formattedMessage = JSON.stringify(message);
+
   return formattedMessage;
 }
 

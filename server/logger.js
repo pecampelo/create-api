@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-function requestEnded(socket) {
-  console.log(`${socket.address} requested the URL - ${socket.request[0]} - with a ${socket.request[1]} method.`);
-  console.log(`${socket.address} made that request with a body of: ${socket.bodyRequest}
+function requestEnded(req) {
+  console.log(`${req.address} requested the URL - ${req.pathname} - with a ${req.method} method.`);
+  console.log(`${req.address} made that request with a body of 
   `);
 }
 
