@@ -1,42 +1,40 @@
-const { Test } = require('./testHandler');
+const { it, expect, TestPackage } = require('./taestro');
+const server = require('../server/server')
 
+const tests = new TestPackage();
 
-const test1 = new Test('Server is listening', 1, 1)
-const test2 = new Test('Request is being received', 2, 3);
-const test3 = new Test('Params are read', 2, 2)
-const test4 = new Test('API Token is checked', 2, 2);
-const test5 = new Test('API enables access to user with Token', 1, 1);
-const test6 = new Test('GET Request to correct endpoint', 1, 1);
-const test7 = new Test('GET Request to wrong endpoint', 1, 1);
-const test8 = new Test('!GET Request to correct endpoint', 1, '1')
-const test9 = new Test('!GET Request to wrong endpoint', 1, 1);
-const test10 = new Test('!GET Request to wrong endpoint', 1, 1);
-
-test1.test();
-test2.test();
-test3.test();
-test4.test();
-test5.test();
-test6.test();
-test7.test();
-test8.test();
-test9.test();
-test10.test()
-
-
-
-
+// it('should show server is listening on config.port', 1, 1)
+// it('should receive a request from an user', 2, 3);
+// it('should format requestedURL into requestInfo', 2, 2);
+// it('should read parameters of a request', 2, 2);
+// it('should read a userSocket with blank values');
+// it('should not log a /favicon.ico a /favicon.ico request', 2, 2)
+// it('should listen to request ending and log it');
+// it('should get method_token');
+// it('should get route_token');
+// it('API Token is checked', 2, 2);
+// it('API enables access to specific route if Token is valid', 1, 1);
+// it('API disables access to specific route if Token is invalid', 1, 1);
+// it('should allow GET Request to correct endpoint', 1, 1);
+// it('should allow GET Request to wrong endpoint', 1, 1);
+// it('should allow !GET Request to correct endpoint', 1, 1)
+// it('should allow !GET Request to wrong endpoint', 1, 1);
+// it('should change response header options', 2, 2);
+// it('should send a response to the user');
+// it('should log that response ended')
+// it('should show response in API');
 
 
 
-// assert.strictEqual('server is listening', 'server.listening is true', '✅');
-// assert.strictEqual('request is received', 'request was received');
-// assert.strictEqual('params are read by the server, params are not undefined');
-// assert.strictEqual('api_token is checked, checkAPIAccessToken returns a boolean');
-// assert.strictEqual() 
+it('should show server is listening on config.port', () => {
+  const result = server.listening;
+  const expected = true;
 
+  expect(true).toBe(true);
+})
 
-// assert.strictEqual('request is received', 'request was received');
-
+module.exports = {
+  tests
+}
 
 

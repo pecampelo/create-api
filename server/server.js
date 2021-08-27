@@ -1,63 +1,62 @@
 const http = require('http');
 const { URL }= require('url');
 const { config } = require('./config')
-const querystring = require('querystring');
-const logger = require('./logger');
-const headers = require('./headers');
+const urlHandler = require('../resources/urlHandler')
+const logger = require('../resources/logger');
+const headers = require('../resources/headers');
 const tokens  = require('../controllers/tokener');
 const router = require('../controllers/router');
+const { url } = require('inspector');
 
 const requestListener = async function(req, res) {
   
-  
   // TODO : EXTRACT API TOKEN FROM URL  
   
-  const requestURL = new URL('http://' + config.host + ':' + config.port + req.url)
+  const requestURL = urlHandler.URLFormatter(config, req);
+  const query = urlHandler.queryFormatter(requestURL);
+  
   
   const requestInfo = {
-    'href': requestURL.href,
-    'pathname': requestURL.pathname,
+    'href': requestURL.href.toString(),
     "address": req.socket.localAddress + ':' + req.socket.localPort,
-    'query': querystring.parse(requestURL.search.slice(1)),
+    'pathname': requestURL.pathname.toString(),
     'method': req.method,
-    'bodyRequest' : req.body
+    'query': query
+    // 'bodyRequest' : form
   }
+  
+  if (requestInfo.pathname === '/favicon.ico') return res.end()
 
+  headers.requestHeaderOptions(requestInfo, res)
+  
   const userSocket = {
-    api_token: '',
     method_token: '',
     route_token: '',
     entry: '',
+    // api_token: '',
   }
 
-  const responseInfo = {
-    bodyResponse: '',
-  }
+  logger.requestEnd(requestInfo);
 
-  headers.requestHeaderOptions(requestInfo, res)
-    
-  logger.requestEnded(requestInfo);
-
-  
-  tokens.getTokens(req, userSocket); 
-  
-  // TODO: Extract entry from token
+  tokens.getTokens(requestInfo, userSocket); 
   
   headers.responseHeaderOptions('allowed', res);
-  
-  const response = await router.handler(req, userSocket); 
+
+  const response = await router.handler(requestInfo, userSocket, res);
+
   res.write(response);
 
   // TODO : Fs. writeFile to logs.json
   
   // logger.saveLog()
   
-  logger.responseEnded();
+  logger.responseEnd();
   
   res.end();
 }
 
-const server = http.createServer( requestListener);
+const server = http.createServer(requestListener);
+
 
 function startServer(config) {
   
@@ -70,8 +69,9 @@ function startServer(config) {
       console.log (`Something wrong happened!`)
     }
   })
+  
 }
 
 module.exports = {
-    startServer
+  startServer
 }

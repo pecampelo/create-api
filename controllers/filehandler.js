@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { defaultPossibilities } = require('../models/defaultData');
+const { defaultPossibilities } = require('../resources/responses');
 
 async function read(file) {
   const output = fs.readFileSync(file, 'utf-8', (err, contents) => {

@@ -25,7 +25,8 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [X] Ready for 1st publish
 - [X] Getting data to JSON files
 - [X] Suggestions for Routes
-- [ ] Fix formatter sending undefined info
+- [X] Fix formatter sending undefined info
+- [X] Fix bodyResponse sending undefined info
 - [ ] Test Counter
 - [ ] Change output based on parameters
 - [ ] Setup files that can be accessed in /server/config

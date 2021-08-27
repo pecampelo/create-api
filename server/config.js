@@ -5,4 +5,28 @@ const config = {
   backlog: process.env.BACKLOG || 2
 }
 
-module.exports =  { config }
+// TODO: Change to allowed 
+const endpoints = [
+  '/api',
+  '/api/users',
+  '/api/locations'
+]
+
+const parameters = [
+  'user',
+  'hero',
+  'email',
+  'location'
+]
+
+module.exports = {
+  endpoints,
+  parameters
+}
+
+
+module.exports =  { 
+  config,
+  endpoints,
+  parameters
+}

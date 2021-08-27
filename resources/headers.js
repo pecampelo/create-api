@@ -1,8 +1,7 @@
-async function requestHeaderOptions(req, res) {
-  if (req.pathname == '/favicon.ico') {
+function requestHeaderOptions(req, res) {
+  if (req.url === 'favicon.ico') {
     return res.end()
   }
-  return res.end()
   // const headers = req.headers;
   // let { api_token = '' } = req.headers;
   
