@@ -1,7 +1,6 @@
-class TestPackage {
-  constructor (...tests) {
-    this.name = 'taestro'
-    this.tests = tests
+class Taestro {
+  constructor (language) {
+    this.language = language;
   }
   
   timeTestPackage() {
@@ -20,11 +19,17 @@ class TestPackage {
     console.time('Tests');
   }
   
+  should(description, expect) {
+    // const test = new Test(description, expected, actual);
+    console.log(`🔨 Test ------- ${description}: \n`);
+    expect()
+  }
+
   test() {
     this.timeTestPackage()
     this.timeTests();
     
-    this.tests()
+    
 
     this.timeTestsEnd()
     this.timeTestPackageEnded();
@@ -42,49 +47,33 @@ class TestPackage {
 
 // }
 
-class Test {
-  constructor () {
-    
-  }
-}
-
 const expect = (actual) => ({
   
   toBe: (expected) => {
     if (actual === expected) {
       console.log({
-        "question": `Is ${actual} === ${expected}?`,
         "outcome": `✅ Test was successful`
-      }, `\n\n ... \n`)
+      }, `\n\n`)
     } else {
       console.log({
-        "question": `Is ${actual} === ${expected}?`,
         "outcome": `❌ Test has failed.`,
         "message": `${actual} !== ${expected}`
-      }, `\n\n ... \n`)
+      }, `\n\n`)
     }
   }, 
   notToBe: (expected) =>{
     if (actual !== expected) {
       console.log({
-        "question": `Is ${actual} === ${expected}?`,
         "outcome": `✅ Test was successful`
-      }, `\n\n ... \n`)
+      }, `\n\n`)
     } else {
       console.log({
-        "question": `Is ${actual} === ${expected}?`,
         "outcome": `❌ Test has failed.`,
         "message": `${actual} !== ${expected}`
-      }, `\n\n ... \n`)
+      }, `\n\n`)
     }
   }
 })
-
-const it = (description, expectation) => {
-  // const test = new Test(description, expected, actual);
-  console.log(`🔨 Test ------- ${description}: \n`);
-  expectation();
-}
 
 // function success() { 
 //   return {
@@ -102,7 +91,6 @@ const it = (description, expectation) => {
 // }
 
 module.exports = {
-  it,
-  expect,
-  TestPackage
+  Taestro, 
+  expect
 }

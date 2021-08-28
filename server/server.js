@@ -57,21 +57,4 @@ const requestListener = async function(req, res) {
 
 const server = http.createServer(requestListener);
 
-
-function startServer(config) {
-  
-  server.listen(config, () => { 
-    if (server.listening === true) {
-      console.log('...')
-      console.log(`Server is running on ${config.host}:${config.port}`);
-      console.log('...')
-    } else { 
-      console.log (`Something wrong happened!`)
-    }
-  })
-  
-}
-
-module.exports = {
-  startServer
-}
+module.exports = server, requestInfo;

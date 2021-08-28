@@ -25,7 +25,7 @@ module.exports = {
 }
 
 
-module.exports =  { 
+module.exports = { 
   config,
   endpoints,
   parameters
