@@ -36,7 +36,7 @@ const requestListener = async function(req, res) {
     // api_token: '',
   }
 
-  logger.requestEnd(requestInfo);
+  // logger.requestEnd(requestInfo);
 
   tokens.getTokens(requestInfo, userSocket); 
   
@@ -50,11 +50,9 @@ const requestListener = async function(req, res) {
   
   // logger.saveLog()
   
-  logger.responseEnd();
-  
   res.end();
 }
 
 const server = http.createServer(requestListener);
 
-module.exports = server, requestInfo;
+module.exports = server, requestListener;
