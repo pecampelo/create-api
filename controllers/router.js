@@ -5,22 +5,21 @@ async function handler(requestInfo, userSocket) {
   const { query } = requestInfo
 
   // TO DO = query controller
-
   if ( method_token === true  && route_token === true ) {
+
     userSocket.entry = 'allowed';
-    return response = await responseController.sendResponse(requestInfo, userSocket); 
+    return response = await responseController.sendResponse(requestInfo, userSocket);
   } 
 
   if (( method_token === false || 'possible' ) && route_token === true) {
     userSocket.entry = 'denied';
-    return response = await responseController.sendResponse(requestInfo, userSocket); 
+    return response = await responseController.sendResponse(requestInfo, userSocket);
   }
 
   else { 
     userSocket.entry = 'not-found';    
     return response = await responseController.sendResponse(requestInfo, userSocket);
   }
-  
 }
 
 function entryTokenHandler(userSocket) {
@@ -36,5 +35,11 @@ function entryTokenHandler(userSocket) {
     return entry = 'not-found';
   }
 }
+
+const queryController = (requestInfo, userSocket) => {
+  if (requestInfo.request.query !== undefined) return userSocket.entry = 'allowed'
+}
+
+
 
 module.exports = { handler }

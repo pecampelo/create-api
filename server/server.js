@@ -9,26 +9,26 @@ const logger = require('../resources/logger');
 
 const requestListener = async function(req, res) {
   
-  const requestURL = urlHandler.URLFormatter(config, req);
-  const query = urlHandler.queryFormatter(requestURL);
-  
+  const requestURL = await urlHandler.URLFormatter(config, req);
+  const query = await urlHandler.queryFormatter(requestURL);
+  const body = await urlHandler.bodyGetter(req);
+
   const requestInfo = {
     'href': requestURL.href.toString(),
     "address": req.socket.localAddress + ':' + req.socket.localPort,
     'pathname': requestURL.pathname.toString(),
     'method': req.method,
-    'query': query
-    // 'bodyRequest' : form
+    'query': query,
+    'bodyRequest' : body
   }
-
+  
   if (requestInfo.pathname === '/favicon.ico') return res.end()
   
   headers.requestHeaderOptions(requestInfo, res)
-
-  // TODO : EXTRACT API TOKEN FROM URL  
-  // TODO : EXTRACT REQUEST BODY
   
+  // TODO : EXTRACT API TOKEN FROM URL
   
+  logger.requestEnd(requestInfo);
   
   const userSocket = {
     method_token: '',
@@ -37,7 +37,6 @@ const requestListener = async function(req, res) {
     // api_token: '',
   }
 
-  logger.requestEnd(requestInfo);
 
   tokens.getTokens(requestInfo, userSocket); 
   
@@ -49,7 +48,6 @@ const requestListener = async function(req, res) {
 
 
   res.write(response);
-
   // TODO : Fs. writeFile to logs.json
   
   logger.saveLog()

@@ -1,11 +1,6 @@
 const correctEndpoint = '127.0.0.1:8001/api'
 const wrongEndpoint = '127.0.0.1:8001/'
 
-const data = new TextEncoder().encode(
-  JSON.stringify({
-    todo: 'Buy the milk 🍼'
-  })
-)
 const getEndpointAPI = [ 
   {
     "apiMessage": "Welcome to my API! 🎈",
