@@ -2,7 +2,7 @@ const http = require('http')
 const { config } = require('../server/config')
 const server = require('../server/server');
 const assert = require('assert');
-const responses = require('../resources/responses')
+const resources = require('./resources');
 
 server.listen(config);
 
@@ -10,72 +10,58 @@ describe('Server', function() {
   it('should report that server is listening', () => {
     assert.equal(server.listening, true);
   });
-});
-
-describe('Methods Allowed', function() {
-  it('should allow a GET request to /api', () => {
-    http.request(`http://${config.host}:${config.port}/`, (res) => {
-      const chunks = []
-      server.on('request', (request, response) => {
-        
-        res.on('data', (chunk) => chunks.push(chunk));
-        res.on('end', async () => { 
-          const result = chunks.join('');
-          const expected = JSON.stringify(responses.response1)
-          assert.equal(result, expected);
-        });
-      })
-    }).end();
-  });
-
-  it('should receive a request similar to', () => {
-    http.request(`http://${config.host}:${config.port}/`, (res) => {
-      const chunks = []
-      server.on('request', (request, response) => {
-        
-        res.on('data', (chunk) => chunks.push(chunk));
-        res.on('end', async () => { 
-          const result = chunks.join('');
-          const expected = JSON.stringify(responses.response1)
-          assert.equal(result, expected);
-        });
-      })
-    }).end();
-    
+  it('should be able to receive a request', () => {
+    server.on('request', (request) => {
+      assert.equal(request !== undefined, true);
+    });
   });
 });
 
-describe('Methods Allowed', function() {
-  it('should allow a GET request to /api', () => {
-    http.request(`http://${config.host}:${config.port}/`, (res) => {
-      const chunks = []
-      server.on('request', (request, response) => {
-        
-        res.on('data', (chunk) => chunks.push(chunk));
-        res.on('end', async () => { 
-          const result = chunks.join('');
-          const expected = JSON.stringify(responses.response1)
-          assert.equal(result, expected);
-        });
-      })
+describe('Endpoints', function() {
+  it('should allow access to a GET request to /api', () => {
+    http.request(resources.getEndpointAPI[1], (res) => {
+      let chunks = [] 
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', async () => { 
+        const result = chunks.join('');
+        const expected = JSON.stringify(resources.getEndpointAPI[0])
+        assert.equal(result, expected);
+      });
     }).end();
-  });
-
-  it('should receive a request similar to', () => {
-    http.request(`http://${config.host}:${config.port}/`, (res) => {
-      const chunks = []
-      server.on('request', (request, response) => {
-        
-        res.on('data', (chunk) => chunks.push(chunk));
-        res.on('end', async () => { 
-          const result = chunks.join('');
-          const expected = JSON.stringify(responses.response1)
-          assert.equal(result, expected);
-        });
-      })
+  })
+  it('should forbid access to a GET request to /', () => {
+    http.request(resources.getEndpoint[1], (res) => {
+      let chunks = [] 
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', async () => { 
+        const result = chunks.join('');
+        const expected = JSON.stringify(resources.getEndpoint[0])
+        assert.equal(result, expected);
+      });
     }).end();
-    
-  });
+  })
+  it('should forbid access to a POST request to /api', () => {
+    http.request(resources.postEndpointAPI[1], (res) => {
+      let chunks = []
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', async () => { 
+        const result = chunks.join('');
+        const expected = JSON.stringify(resources.postEndpointAPI[0])
+        assert.equal(result, expected);
+      });
+    }).end();
+  })
+  it('should forbid access to a POST request to /', () => {
+    http.request(resources.postEndpoint[1], (res) => {
+      let chunks = [] 
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', async () => { 
+        const result = chunks.join('');
+        const expected = JSON.stringify(resources.postEndpoint[0])
+        assert.equal(result, expected);
+      });
+    }).end();
+  })
 });
 
 server.close();

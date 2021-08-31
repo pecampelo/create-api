@@ -2,19 +2,15 @@ const http = require('http');
 const { URL }= require('url');
 const { config } = require('./config')
 const urlHandler = require('../resources/urlHandler')
-const logger = require('../resources/logger');
 const headers = require('../resources/headers');
 const tokens  = require('../controllers/tokener');
 const router = require('../controllers/router');
-const { url } = require('inspector');
+const logger = require('../resources/logger');
 
 const requestListener = async function(req, res) {
   
-  // TODO : EXTRACT API TOKEN FROM URL  
-  
   const requestURL = urlHandler.URLFormatter(config, req);
   const query = urlHandler.queryFormatter(requestURL);
-  
   
   const requestInfo = {
     'href': requestURL.href.toString(),
@@ -24,10 +20,15 @@ const requestListener = async function(req, res) {
     'query': query
     // 'bodyRequest' : form
   }
-  
-  if (requestInfo.pathname === '/favicon.ico') return res.end()
 
+  if (requestInfo.pathname === '/favicon.ico') return res.end()
+  
   headers.requestHeaderOptions(requestInfo, res)
+
+  // TODO : EXTRACT API TOKEN FROM URL  
+  // TODO : EXTRACT REQUEST BODY
+  
+  
   
   const userSocket = {
     method_token: '',
@@ -36,7 +37,7 @@ const requestListener = async function(req, res) {
     // api_token: '',
   }
 
-  // logger.requestEnd(requestInfo);
+  logger.requestEnd(requestInfo);
 
   tokens.getTokens(requestInfo, userSocket); 
   
@@ -44,11 +45,14 @@ const requestListener = async function(req, res) {
 
   const response = await router.handler(requestInfo, userSocket, res);
 
+  // TODO: Connect use to database
+
+
   res.write(response);
 
   // TODO : Fs. writeFile to logs.json
   
-  // logger.saveLog()
+  logger.saveLog()
   
   res.end();
 }

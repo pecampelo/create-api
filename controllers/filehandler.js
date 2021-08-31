@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { defaultPossibilities } = require('../resources/responses');
 
-async function read(file) {
+function read(file) {
   const output = fs.readFileSync(file, 'utf-8', (err, contents) => {
   return JSON.parse(String(contents));
   });
