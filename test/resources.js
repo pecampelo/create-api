@@ -80,8 +80,7 @@ const postEndpointAPI = [
     path: '/api',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Type': 'application/json'
     }
   }
 ]
@@ -115,8 +114,7 @@ const postEndpoint = [
     path: '/',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Type': 'application/json'
     }
   }
 ]

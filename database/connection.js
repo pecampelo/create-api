@@ -4,9 +4,7 @@ async function main() {
   
   const uri = "mongodb+srv://pedro:pedro@cluster0.4ufhi.mongodb.net/create-api?retryWrites=true&w=majority";
   
-  
   const client = new MongoClient(uri) 
-
 
   try {
     await client.connect()
@@ -15,7 +13,6 @@ async function main() {
     const sample = database.collection('heroes')
     const api = database.collection('v1.0')
 
-    
   } catch (e) {
     console.log(e)
   } finally {

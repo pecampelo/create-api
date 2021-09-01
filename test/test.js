@@ -1,70 +1,69 @@
+const mocha = require('mocha')
 const http = require('http')
 const { config } = require('../server/config')
 const server = require('../server/server');
-const assert = require('assert');
+const assert = require('assert')
 const resources = require('./resources');
+const { doesNotMatch } = require('assert');
 
-server.listen(config);
+server.listen(config)
 
 describe('Server', function() {
-  it('should report that server is listening', () => {
-    assert.equal(server.listening, true);
-  });
-  it('should be able to receive a request', () => {
-    server.on('request', (request) => {
-      assert.equal(request !== undefined, true);
-    });
+  it('should report that server is listening', (done) => {
+    assert.equal(server.listening, true)
+    done()
   });
 });
 
-describe('Endpoints', function() {
+describe('Server', function() {
   it('should allow access to a GET request to /api', () => {
     http.request(resources.getEndpointAPI[1], (res) => {
       let chunks = [] 
       res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', async () => { 
+      res.on('end', () => { 
         const result = chunks.join('');
         const expected = JSON.stringify(resources.getEndpointAPI[0])
-        assert.equal(result, expected);
       });
     }).end();
+    assert.strictEqual(2, expected);
   })
-  it('should forbid access to a GET request to /', () => {
-    http.request(resources.getEndpoint[1], (res) => {
-      let chunks = [] 
-      res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', async () => { 
-        const result = chunks.join('');
-        const expected = JSON.stringify(resources.getEndpoint[0])
-        assert.equal(result, expected);
-      });
-    }).end();
-  })
-  it('should forbid access to a POST request to /api', () => {
-    http.request(resources.postEndpointAPI[1], (res) => {
-      let chunks = []
-      res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', async () => { 
-        const result = chunks.join('');
-        const expected = JSON.stringify(resources.postEndpointAPI[0])
-        assert.equal(result, expected);
-      });
-    }).end();
-  })
-  it('should forbid access to a POST request to /', () => {
-    http.request(resources.postEndpoint[1], (res) => {
-      let chunks = [] 
-      res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', async () => { 
-        const result = chunks.join('');
-        const expected = JSON.stringify(resources.postEndpoint[0])
-        assert.equal(result, expected);
-      });
-    }).end();
-  })
-});
+})
 
-server.close();
+it('should forbid access to a GET request to /', () => {
+  http.request(resources.getEndpoint[1], (res) => {
+    let chunks = [] 
+    res.on('data', (chunk) => chunks.push(chunk));
+    res.on('end', async () => { 
+      const result = chunks.join('');
+      const expected = JSON.stringify(resources.getEndpoint[0])
+      assert.strictEqual(result, expected);
+      console.log(result);
+      console.log(expected);
+    });
+  }).end();
+})
+it('should forbid access to a POST request to /api', () => {
+  http.request(resources.postEndpointAPI[1], (res) => {
+    let chunks = []
+    res.on('data', (chunk) => chunks.push(chunk));
+    res.on('end', async () => { 
+      const result = chunks.join('');
+      const expected = JSON.stringify(resources.postEndpointAPI[0])
+      assert.strictEqual(result, expected);
+    });
+  }).end();
+})
+it('should forbid access to a POST request to /', () => {
+  http.request(resources.postEndpoint[1], (res) => {
+    let chunks = [] 
+    res.on('data', (chunk) => chunks.push(chunk));
+    res.on('end', async () => { 
+      const result = chunks.join('');
+      assert.strictEqual(result, expected);
+    });
+  }).end();
+})
+
 
 
 

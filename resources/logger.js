@@ -22,7 +22,7 @@ function responseEnd() {
 
 }
 
-function saveLog(request, response, logFile) {
+function saveLog(request, response) {
   const toWrite = {
     "requestMade" : request,
     "responseGiven": response
