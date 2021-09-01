@@ -9,6 +9,10 @@ const logger = require('../resources/logger');
 
 const requestListener = async function(req, res) {
   
+  req.on('error', (err) => {
+    console.error(err.stack);
+  });
+
   const requestURL = await urlHandler.URLFormatter(config, req);
   const query = await urlHandler.queryFormatter(requestURL);
   const body = await urlHandler.bodyGetter(req);
@@ -37,13 +41,13 @@ const requestListener = async function(req, res) {
     // api_token: '',
   }
 
-
   tokens.getTokens(requestInfo, userSocket); 
   
   headers.responseHeaderOptions('allowed', res);
 
   const response = await router.handler(requestInfo, userSocket, res);
 
+  // TODO separate status code from response
   // TODO: Connect use to database
 
 

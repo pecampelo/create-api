@@ -1,20 +1,19 @@
 const { endpoints } = require('../server/config')
+const fs = require('fs');
+const { sendFile } = require('./filehandler');
 
 async function sendResponse(requestInfo, userSocket) {
+  const { pathname } = requestInfo;
+  const file = sendFile(pathname)
 
   // TODO FETCH DATA FROM JSON
-  const response = await formatResponse(requestInfo, userSocket)
+  const response = await formatResponse(requestInfo, userSocket, file)
   const formattedResponse = JSON.stringify(response);
   return formattedResponse;
 }
 
-function bodyFormatter(body) {
-  if (body === undefined) return '';
-  if (body !== '') return body;
-  else {}
-}
 
-function formatResponse(requestInfo, userSocket) {
+async function formatResponse(requestInfo, userSocket, file) {
   let response;
   if (userSocket.entry === 'allowed') { 
     response = {
@@ -24,7 +23,10 @@ function formatResponse(requestInfo, userSocket) {
       "route_token": userSocket.route_token,
       "entry": userSocket.entry,
       // "api_key": userSocket.api_key,
-      "bodyResponse": 'Response! 🎈',
+      "bodyResponse": [
+        'Response! 🎈',
+        JSON.parse(file)
+      ]
     }
     return response;
   }
@@ -36,9 +38,9 @@ function formatResponse(requestInfo, userSocket) {
       "route_token": userSocket.route_token,
       "entry": userSocket.entry,
       // "api_key": userSocket.api_key,
+      // `Check if ${api_key} is valid`
       "bodyResponse": [
         "Please only use GET method",
-        // `Check if ${api_key} is valid`
       ]
 
     }

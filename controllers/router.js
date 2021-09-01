@@ -2,7 +2,7 @@ const responseController = require('./responseControl');
 
 async function handler(requestInfo, userSocket) {
   const { method_token, route_token } = userSocket;
-  const { query } = requestInfo
+  // const { query } = requestInfo
 
   // TO DO = query controller
   if ( method_token === true  && route_token === true ) {

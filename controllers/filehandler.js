@@ -1,20 +1,26 @@
 const fs = require('fs');
-const { defaultPossibilities } = require('../resources/responses');
-
-function read(file) {
-  const output = fs.readFileSync(file, 'utf-8', (err, contents) => {
-  return JSON.parse(String(contents));
-  });
-}
+const queryController = require('./queryController')
 
 const defaultKeys = [], defaultValues = [];
 
-defaultPossibilities.forEach((property) => {
-  let valueArrays = Object.values(property)[1];
-  let key = Object.keys(property);
-  defaultKeys.push(key);
-  defaultValues.push(valueArrays);
-})
+// defaultPossibilities.forEach((property) => {
+//   let valueArrays = Object.values(property)[1];
+//   let key = Object.keys(property);
+//   defaultKeys.push(key);
+//   defaultValues.push(valueArrays);
+// })
+
+function sendFile(pathname) {
+  if (pathname === '/api') {
+    return fs.readFileSync('../create-api/database/heroes.json', 'utf-8');
+  }
+  if (pathname === '/api/users') {
+    return fs.readFileSync('../create-api/database/data.json', 'utf-8');
+  }
+  else {
+    return undefined;
+  }
+}
 
 // function storeMessage(defaultKeys, defaultValues, data) {
 //   let formattedMessage = {}
@@ -35,7 +41,5 @@ defaultPossibilities.forEach((property) => {
 // that will request to pull variable into response possibilities.
 
 module.exports = { 
-    defaultKeys, 
-    defaultValues,
-    read
+  sendFile
 }

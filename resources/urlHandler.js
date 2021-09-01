@@ -19,12 +19,14 @@ const bodyGetter = async (req) => {
     buffers.push(chunk);
   }
 
-  if (buffers.entries === 0) return; 
-  else {}
-  
-  const data = Buffer.concat(buffers).toString();
-  const body = await JSON.parse(data);
-  return body;
+  if (buffers.length > 0) {
+    const data = Buffer.concat(buffers).toString();
+    const body = await JSON.parse(data);
+    return body;
+  }
+
+  else { return body = {}}
+    
 }
 
 

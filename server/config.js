@@ -20,12 +20,6 @@ const parameters = [
 ]
 
 module.exports = {
-  endpoints,
-  parameters
-}
-
-
-module.exports = { 
   config,
   endpoints,
   parameters
