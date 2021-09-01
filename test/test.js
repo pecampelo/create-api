@@ -9,7 +9,7 @@ server.listen(config)
 
 describe('Server', function() {
   it('should report that server is listening', () => {
-    assert.equal(server.listening, false) // Working, change to true
+    assert.equal(server.listening, true) // Working, change to true
   });
 });
 
@@ -19,14 +19,15 @@ describe('Request 1', function() {
       let chunks = [] 
       res.on('data', (chunk) => chunks.push(chunk));
       res.on('end', () => { 
-
+        const result = chunks.join('');
+        const expected = JSON.stringify(resources.getEndpointAPI)
         assert.equal(result, expected);
       });
     }).end();
   })
 })
 
-describe('Server', function() {
+describe('Request 2', function() {
   it('should forbid access to a GET request to /', () => {
     http.request(resources.option2, (res) => {
       let chunks = [] 
@@ -42,7 +43,7 @@ describe('Server', function() {
   })
 })
 
-describe('Server', function() {
+describe('Request 3', function() {
   it('should forbid access to a POST request to /api', () => {
     http.request(resources.option3, (res) => {
       let chunks = []
@@ -56,7 +57,7 @@ describe('Server', function() {
   })
 })
 
-describe('Server', function() {
+describe('Request 4', function() {
   it('should forbid access to a POST request to /', () => {
     http.request(resources.option4, (res) => {
       let chunks = [] 

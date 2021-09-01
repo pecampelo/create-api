@@ -6,7 +6,8 @@ async function sendResponse(requestInfo, userSocket) {
   const { pathname } = requestInfo;
   const file = sendFile(pathname)
 
-  // TODO FETCH DATA FROM JSON
+  // TODO : query controller callback;
+  // TODO : API token callback;
   const response = await formatResponse(requestInfo, userSocket, file)
   const formattedResponse = JSON.stringify(response);
   return formattedResponse;

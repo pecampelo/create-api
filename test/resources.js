@@ -8,14 +8,28 @@ const getEndpointAPI = {
       "address": "127.0.0.1:8001",
       "pathname": "/api",
       "method": "GET",
-      "query": {
-        
-      }
+      "query": {},
+      "bodyRequest": {}
     },
     "method_token": true,
     "route_token": true,
     "entry": "allowed",
-    "bodyResponse": "Response! 🎈"
+    "bodyResponse": [
+      "Response! 🎈",
+      {
+        "id": 1,
+        "name": "npc_dota_hero_antimage",
+        "localized_name": "Anti-Mage",
+        "primary_attr": "agi",
+        "attack_type": "Melee",
+        "roles": [
+          "Carry",
+          "Escape",
+          "Nuker"
+        ],
+        "legs": 2
+      }
+    ]
 }
 
 const option1 = {

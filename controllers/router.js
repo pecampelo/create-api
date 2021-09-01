@@ -22,24 +22,8 @@ async function handler(requestInfo, userSocket) {
   }
 }
 
-function entryTokenHandler(userSocket) {
-  let entry;
-  const { method_token, route_token } = userSocket;
-  if ( method_token === true  && route_token === true ) {
-    return entry = 'allowed';
-  } 
-  if (( method_token === false || 'possible' ) && route_token === true) {
-    return entry = 'denied';
-  }
-  else { 
-    return entry = 'not-found';
-  }
-}
-
 const queryController = (requestInfo, userSocket) => {
   if (requestInfo.request.query !== undefined) return userSocket.entry = 'allowed'
 }
-
-
 
 module.exports = { handler }

@@ -27,6 +27,9 @@ const requestListener = async function(req, res) {
   }
   
   if (requestInfo.pathname === '/favicon.ico') return res.end()
+
+  console.log('\n--------------------------------------------------------------------------')
+  console.log('New Request Incoming!')
   
   headers.requestHeaderOptions(requestInfo, res)
   

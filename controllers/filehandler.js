@@ -12,7 +12,7 @@ const defaultKeys = [], defaultValues = [];
 
 function sendFile(pathname) {
   if (pathname === '/api') {
-    return fs.readFileSync('../create-api/database/heroes.json', 'utf-8');
+    return fs.readFileSync('../create-api/database/hero.json', 'utf-8');
   }
   if (pathname === '/api/users') {
     return fs.readFileSync('../create-api/database/data.json', 'utf-8');
