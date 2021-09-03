@@ -1,17 +1,29 @@
-const { sendMessage } = require('./messager');
+const responseController = require('./responseControl');
 
-async function handler(req, userSocket) {
-  const { entry } = userSocket;
-  let message = '';
-  if (entry === 'allowed' || 'denied') { return message = sendMessage(entry, req, userSocket); }
-  if (entry === 'not-found') { return message = notFoundHandler(req, userSocket); }
-  else {  return console.log('Error!')  }
+async function handler(requestInfo, userSocket) {
+  const { method_token, route_token } = userSocket;
+  // const { query } = requestInfo
+
+  // TO DO = query controller
+  if ( method_token === true  && route_token === true ) {
+
+    userSocket.entry = 'allowed';
+    return response = await responseController.sendResponse(requestInfo, userSocket);
+  } 
+
+  if (( method_token === false || 'possible' ) && route_token === true) {
+    userSocket.entry = 'denied';
+    return response = await responseController.sendResponse(requestInfo, userSocket);
+  }
+
+  else { 
+    userSocket.entry = 'not-found';    
+    return response = await responseController.sendResponse(requestInfo, userSocket);
+  }
 }
 
-function notFoundHandler(req, userSocket) {
-  userSocket.route_token = route_token === '' ? '?' : route_token;
-  const message = sendMessage('not-found', req, userSocket);
-  return message;
-} 
+const queryController = (requestInfo, userSocket) => {
+  if (requestInfo.request.query !== undefined) return userSocket.entry = 'allowed'
+}
 
 module.exports = { handler }
