@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js && exit 1"
+    "test": "mocha --exit",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,12 @@
   },
   "homepage": "https://github.com/pecampelo/create-api#readme",
   "devDependencies": {
-    "nodemon": "^2.0.12",
-    "sequelize-cli": "^6.2.0"
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "pg": "^8.7.1",
-    "sequelize": "^6.6.5"
+    "mocha": "^9.1.1",
+    "mongodb": "^4.1.1"
   }
 }

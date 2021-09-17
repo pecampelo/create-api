@@ -1,67 +1,67 @@
 const http = require('http');
-const headers = require('./headers');
-const router = require('../controllers/router');
+const { URL }= require('url');
+const { config } = require('./config')
+const urlHandler = require('../resources/urlHandler')
+const headers = require('../resources/headers');
 const tokens  = require('../controllers/tokener');
-const logger = require('./logger');
+const router = require('../controllers/router');
+const logger = require('../resources/logger');
 
+const requestListener = async function(req, res) {
+  
+  req.on('error', (err) => {
+    console.error(err.stack);
+  });
 
-const server = http.createServer(async (req, res) => {
- 
-  headers.requestHeaderOptions(req);
+  const requestURL = await urlHandler.URLFormatter(config, req);
+  const query = await urlHandler.queryFormatter(requestURL);
+  const body = await urlHandler.bodyGetter(req);
 
-  if (req.url === '/favicon.ico') { return res.end() }
-    // TODO : EXTRACT API TOKEN FROM URL
-
-    // UserSocket =>> object used to store tokens 
-    // and general server information that can be later used.
-  const userSocket = {
-    address: req.socket.localAddress + ':' + req.socket.localPort,
-    request: [ req.url, req.method],
-    bodyRequest: req.body,
-    api_token: false,
-    method_token: '',
-    route_token: '',
-    entry: ''
+  const requestInfo = {
+    'href': requestURL.href.toString(),
+    "address": req.socket.localAddress + ':' + req.socket.localPort,
+    'pathname': requestURL.pathname.toString(),
+    'method': req.method,
+    'query': query,
+    'bodyRequest' : body
   }
   
-  logger.requestEnded(userSocket);
+  if (requestInfo.pathname === '/favicon.ico') return res.end()
 
-  tokens.getTokens(req, userSocket); 
-
-  // TODO: Extract entry from token
+  console.log('\n--------------------------------------------------------------------------')
+  console.log('New Request Incoming!')
   
+  headers.requestHeaderOptions(requestInfo, res)
+  
+  // TODO : EXTRACT API TOKEN FROM URL
+  
+  logger.requestEnd(requestInfo);
+  
+  const userSocket = {
+    method_token: '',
+    route_token: '',
+    entry: '',
+    // api_token: '',
+  }
 
+  tokens.getTokens(requestInfo, userSocket); 
+  
   headers.responseHeaderOptions('allowed', res);
-  
-  
-  const response = await router.handler(req, userSocket); 
 
-  logger.data(response);
+  const response = await router.handler(requestInfo, userSocket, res);
+
+  // TODO separate status code from response
+  // TODO: Connect use to database
+
 
   res.write(response);
-
-  logger.responseEnded();
-
-  res.end();
-
-
-
-
-});
-
-function startServer(serverOptions) {
+  // TODO : Fs. writeFile to logs.json
   
-  server.listen(serverOptions, () => { 
-    if (server.listening === true) {
-      console.log('...')
-      console.log(`Server is running on ${serverOptions.host}:${serverOptions.port}`);
-      console.log('...')
-    } else { 
-      console.log (`Something wrong happened!`)
-    }
-  })
+  logger.saveLog()
+  
+  res.end();
 }
 
-module.exports = {
-    startServer
-}
+const server = http.createServer(requestListener);
+
+module.exports = server, requestListener;

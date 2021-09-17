@@ -9,6 +9,11 @@
             "id": 2,
             "name": "Kimberly Borges Valério",
             "age": 28
+        },
+        {
+          "id": 3,
+          "name": "Ana Cláudia Barreiros Campelo Matheus",
+          "age": 49
         }
     ]
 }
