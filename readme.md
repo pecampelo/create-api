@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# api-v1
-=======
 # create-api
 
 This is a lightweight boilerplate for creating APIs. It does not require any npm libraries except for the in-built Node modules, so it usually requires some handiwork and a trial-and-error process, but this compensates for its speed and minimalism.
