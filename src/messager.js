@@ -1,6 +1,5 @@
-const { endpoints } = require('../server/config')
 const fs = require('fs');
-const { sendFile } = require('./filehandler');
+const { sendFile } = require('../controllers/userController');
 
 async function sendResponse(requestInfo, userSocket) {
   const { pathname } = requestInfo;
@@ -14,7 +13,7 @@ async function sendResponse(requestInfo, userSocket) {
 }
 
 
-async function formatResponse(requestInfo, userSocket, file) {
+async function formatResponse(userSocket, file) {
   let response;
   if (userSocket.entry === 'allowed') { 
     response = {
@@ -24,7 +23,7 @@ async function formatResponse(requestInfo, userSocket, file) {
       "route_token": userSocket.route_token,
       "entry": userSocket.entry,
       // "api_key": userSocket.api_key,
-      "bodyResponse": [
+      "message": [
         'Response! 🎈',
         JSON.parse(file)
       ]
@@ -34,13 +33,12 @@ async function formatResponse(requestInfo, userSocket, file) {
   if (userSocket.entry === 'denied') {
     response = {
       "apiMessage": "Access denied! 😡",
-      "request": requestInfo,
       "method_token": userSocket.method_token,
       "route_token": userSocket.route_token,
       "entry": userSocket.entry,
       // "api_key": userSocket.api_key,
       // `Check if ${api_key} is valid`
-      "bodyResponse": [
+      "message": [
         "Please only use GET method",
       ]
 
@@ -50,12 +48,11 @@ async function formatResponse(requestInfo, userSocket, file) {
   if (userSocket.entry === 'not-found') {
     response = {
       "apiMessage": "Not Found! 😔",
-      "request": requestInfo,
       "method_token": userSocket.method_token,
       "route_token": userSocket.route_token,
       "entry": userSocket.entry,
       // "api_key": userSocket.api_key,
-      "bodyResponse": [
+      "message": [
         "Please only use GET method", 
         'You can try these endpoints:', 
         endpoints],

@@ -27,21 +27,19 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [X] Suggestions for Routes
 - [X] Fix formatter sending undefined info
 - [X] Fix bodyResponse sending undefined info
-- [ ] Test Counter
-- [ ] Change output based on parameters
-- [ ] Setup files that can be accessed in /server/config
-- [ ] Queue tests to be made;
-- [ ] Test Package Runner;
-- [ ] Show quantity of tests successful per total of tests
-- [ ] Log request + response to logfile;
+- [ ] Change output based on filter query:
+  - [ ] Order
+  - [ ] Sort
+  - [ ] Filter
+- [ ] Setup routes that can be accessed in /routes
 - [ ] Customize logfile path; if file does not exist, create it.
 - [ ] Test if file is updated when a second log is sent;
-- [ ] Body of Request is being shown
-- [ ] Body of Response is sent
-- [ ] Function to create a route
+- [X] Body of Request is being shown
+- [X] Body of Response is sent
+- - [ ] Option for JSON or XML
+- [ ] Class Route
 - [ ] Install Docker to configure pg database
 - [ ] Use Sequelize to connect to a database
-- [ ] XML Option in Configs
 - [ ] Plain Text Option in Configs
 - [ ] Custom CORS settings
 - [ ] Setup connection to front-end
@@ -49,7 +47,8 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [ ] Add server listeners for:
     - [ ] Limit query per hour and per user
     - [ ] Connection Timeout after 15s
-    - [ ] Maintain session state if API key
+- [ ] Maintain session state if API key
+- [ ] Pages for Request
 - [ ] Documentation
 
 ### Documentation

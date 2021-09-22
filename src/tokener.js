@@ -1,4 +1,4 @@
-const { endpoints } = require('../server/config');
+const router = require('./router') 
 
 function getTokens(req, userSocket) {
   try {
@@ -10,11 +10,11 @@ function getTokens(req, userSocket) {
   return userSocket;
 }
 
-function methodTokenHandler(requestInfo, userSocket) {
-  const { method } = requestInfo;
+function methodTokenHandler(req, userSocket) {
+  const { method } = req;
   if (method === 'GET') { return userSocket.method_token = true; }
   if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
-  return userSocket. method_token = 'possible'; 
+  return userSocket.method_token = 'possible'; 
   } else { return method_token = false; }
 }
   
@@ -22,13 +22,13 @@ function routeTokenHandler(req, userSocket) {
   let { method_token, route_token } = userSocket;
   if (method_token === true || method_token === 'possible') {
     route_token = false;
-    endpoints.forEach((endpoint) => {
-      if (endpoint === req.pathname) {
-       return route_token = true;
-      } 
+    const route = router.find((router) => {
+      router.endpoint === req.pathname && router.method === req.method
     })
-    return route_token;
-  } else {}
+    if (route) return route_token = true;
+    else {} 
+  }
+   else return route_token = false; 
 }
 
 module.exports = { 

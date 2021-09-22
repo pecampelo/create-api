@@ -1,10 +1,10 @@
-const server = require('./server/server')
-const { config } = require('./server/config')
+const server = require('./src/server')
+const config = require('./config')
 
-server.listen(config, () => { 
+server.listen(config.options, () => { 
   if (server.listening === true) {
     console.log('...')
-    console.log(`Server is running on ${config.host}:${config.port}`);
+    console.log(`Server is running on ${config.options.host}:${config.options.port}`);
     console.log('...')
   } else { 
     console.log (`Something wrong happened!`)

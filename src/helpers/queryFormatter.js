@@ -1,5 +1,5 @@
 const queryController = (requestInfo, userSocket) => {
-  if (requestInfo.request.query !== undefined) return userSocket.entry = 'denied'
+  if (req.query !== undefined) return userSocket.entry = 'denied'
 
   // TODO: Check database for file, 
   //if there is none, 
@@ -35,10 +35,24 @@ const bodyController = (requestInfo, userSocket) => {
   // return ?
 }
 
+function bodyParser(request, callback) {
+  let body = ''
+
+  request.on('data', (chunk) => {
+    body += chunk;
+  });
+
+  request.on('end', () => {
+    body = JSON.parse(body)
+    request.body = body;
+    callback();
+  })
+}
 
 
 
 
 module.exports = {
-  queryController
+  queryController,
+  bodyParser
 }

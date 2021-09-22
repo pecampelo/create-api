@@ -2,11 +2,11 @@ const URLFormatter = async (config, req) => {
   return requestURL = new URL('http://' + config.host + ':' + config.port + req.url)
 }
 
-const queryFormatter = async (URL) => {
+const queryGetter = async (URL) => {
   const params = new URLSearchParams(URL.search.slice(1));
   const query = {}
   params.forEach((value, key) => {
-    query[key] = value;
+    query[key] = value.toLowerCase();
   })
   return query;
 }
@@ -32,6 +32,6 @@ const bodyGetter = async (req) => {
 
 module.exports = {
   URLFormatter,
-  queryFormatter,
+  queryGetter,
   bodyGetter
 }

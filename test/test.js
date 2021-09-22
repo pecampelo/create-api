@@ -1,11 +1,11 @@
 const mocha = require('mocha')
 const http = require('http')
-const { config } = require('../server/config')
-const server = require('../server/server');
+const config = require('../config')
+const server = require('../src/server')
 const assert = require('assert')
-const resources = require('./resources');
+const resources = require('./test-resources');
 
-server.listen(config)
+server.listen(config);
 
 describe('Server', function() {
   it('should report that server is listening', () => {
