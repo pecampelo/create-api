@@ -2,6 +2,11 @@ function requestHeaderOptions(req, res) {
   if (req.url === 'favicon.ico') {
     return res.end()
   }
+
+  req.on('error', (err) => {
+    console.error(err.stack);
+  });
+  
   // const headers = req.headers;
   // let { api_token = '' } = req.headers;
   

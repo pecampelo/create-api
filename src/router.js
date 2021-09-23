@@ -18,7 +18,7 @@ module.exports = [
     handler: UserController.getUserById
   },
   {
-    endpoint: '/users',
+    endpoint: '/users/:name',
     method: 'GET',
     handler: UserController.getUserByName
   },
@@ -26,6 +26,16 @@ module.exports = [
     endpoint: '/users',
     method: 'POST',
     handler: UserController.createUser
+  },
+  {
+    endpoint: '/users/:id',
+    method: 'PUT',
+    handler: UserController.updateUser
+  },
+  {
+    endpoint: '/users/:id',
+    method: 'DELETE',
+    handler: UserController.deleteUser
   },
 
 ]

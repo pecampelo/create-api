@@ -48,17 +48,24 @@ module.exports = {
   getUserByName(req, res) {
         
     const { username } = req.params;
-    
-    const user = users.find((user) => user.name.toLowerCase() === username)
-       
+
+    const user = users.find((user) => {
+      const names = user.name.toLowerCase().split(' ')
+      const result = names.find((anyName) => {
+        return anyName === username
+      })
+      return result
+    })
+
     if (!user) {
-      return res.end(400, { error: 'User not found!' });    
+      return res.send(400, { error: 'User not found!' });    
     }
     
     res.send(200, user);
     
   },
   createUser(req, res) {
+
     const { body } = req;
     const lastUserId = users[users.length - 1].id;
     const newUser = {
@@ -69,5 +76,29 @@ module.exports = {
     users.push(newUser)
 
     res.send(200, newUser)
+  },
+  updateUser(req, res) {
+    const { id } = req.params;
+    const { name, age } = req.body;
+
+    const user = users.find((user) => user.id == Number(id));
+    
+    user.name = name;
+    user.age = age;
+
+    console.log(user)
+    res.send(200, user)
+  },
+  deleteUser(req, res) {
+    let { id } = req.params;
+    const { name } = req.body;
+
+    id = Number(id);
+
+    users = users.filter((user) => user.id != id);
+    
+    
+
+    res.send(200, { deleted: true })
   }
 }
