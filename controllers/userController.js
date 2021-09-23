@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { users } = require('../mocks/data.json')
+let { users } = require('../mocks/data.json')
 
 module.exports = { 
 
@@ -13,28 +13,31 @@ module.exports = {
     // })
     
   listUsers(req, res) {
-    const data = fs.readFileSync('../create-api/mocks/data.json', 'utf-8')
-    return res.send(200, JSON.parse(data));
+
+    const { order } = req.query;
+ 
+    // const file = fs.readFileSync('../create-api/mocks/data.json', 'utf-8');
+    // const parsedFile = JSON.parse(file);
+    // let users = parsedFile.users;
+
   
-  
-  
-    
-    // createUser(req, res) {
-      
-      // }           
-      
-  
+
+    const sortedData = users.sort((a, b) => {
+      if (order === 'desc') {
+        return a.id > b.id ? 1 : -1;
+      } else {
+        return a.id < b.id ? 1 : 1;
+      }
+    })
+
+    res.send(200, sortedData);
+ 
   },
   getUserById(req, res) {
     
-    
-    
     const { id } = req.params;
-    
     const user = users.find((user) => user.id == Number(id));
-    
-    
-    
+         
     if (!user) {
       return res.send(400, { error: 'User not found!' });    
     }
@@ -43,16 +46,11 @@ module.exports = {
     
   },
   getUserByName(req, res) {
+        
+    const { username } = req.params;
     
-    
-    
-    const { name } = req.params;
-    
-    
-    const user = users.find((user) => user.name.toLowerCase() === name)
-    
-    
-    
+    const user = users.find((user) => user.name.toLowerCase() === username)
+       
     if (!user) {
       return res.end(400, { error: 'User not found!' });    
     }
@@ -70,6 +68,6 @@ module.exports = {
     }
     users.push(newUser)
 
-    response.send(200, newUser)
+    res.send(200, newUser)
   }
 }

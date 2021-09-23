@@ -1,9 +1,7 @@
 const http = require('http');
 const config = require('../config')
-const urlHandler = require('./helpers/urlHandler')
-const { bodyParser } = require('./helpers/queryFormatter')
+const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers')
 const headers = require('./helpers/headers');
-const tokens  = require('./tokener');
 const router = require('./router');
 const logger = require('./helpers/logger');
 
@@ -13,27 +11,22 @@ const requestListener = async (req, res) => {
     console.error(err.stack);
   });
 
-  const requestURL = await urlHandler.URLFormatter(config.options, req);
-  const query = await urlHandler.queryGetter(requestURL);
-  const body = await urlHandler.bodyGetter(req);
-
+  const requestURL = await URLFormatter(config.options, req);
+  
   req.pathname = requestURL.pathname.toString()
   if (req.pathname === '/favicon.ico') return res.end()
 
-  req.href = requestURL.href.toString()
   req.address = req.socket.localAddress + ':' + req.socket.localPort
   req.method = req.method
-  req.query = query
-  req.bodyRequest = body
-  
-  console.log('\n--------------------------------------------------------------------------')
-  console.log('New Request Incoming!')
+  req.query = await queryParser(requestURL);
+   
+  // console.log('\n--------------------------------------------------------------------------')
+  // console.log('New Request Incoming!')
   
   headers.requestHeaderOptions(req, res)
   
   // TODO : EXTRACT API TOKEN FROM URL
   
-  logger.requestEnd(req);
   
   const userSocket = {
     method_token: '',
@@ -41,51 +34,52 @@ const requestListener = async (req, res) => {
     entry: '',
     // api_token: '',
   }
-
-  tokens.getTokens(req, userSocket); 
   
   headers.responseHeaderOptions('allowed', res);
-
+  
+  let { pathname } = requestURL
   let id = null;
-  let name = null;
-
-
-
-
-
-  const splitEndpoint = req.pathname.split('/').filter(Boolean); // WOW
+  let username = null;
+  
+  
+  
+  
+  
+  const splitEndpoint = pathname.split('/').filter(Boolean); // WOW
   
   
   if (splitEndpoint.length > 1) {
     if (Number(splitEndpoint[1])) {
-      req.pathname = `/${splitEndpoint[0]}/:id`
+      pathname = `/${splitEndpoint[0]}/:id`
       id = Number(splitEndpoint[1]);
     }
     else {
-      req.pathname = `/${splitEndpoint[0]}/:name`
-      name = splitEndpoint[1].toLowerCase();
+      pathname = `/${splitEndpoint[0]}/:name`
+      username = splitEndpoint[1].toLowerCase();
     }
   }
   
-
-
   res.send = (statusCode, body) => {
     res.writeHead(statusCode, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify(body));    
   }
+  
+  const route = router.find((routeObject) => (
+    routeObject.endpoint === pathname && routeObject.method === req.method
+    ));
+    
+    if (route) {
+      
+      
+      req.params = { id, username }
 
-  const route = router.find((router) => (
-    router.endpoint === req.pathname && router.method === req.method
-  ));
-
-  if (route) {
     res.send = (statusCode, body) => {
       res.writeHead(statusCode, { 'Content-Type': 'application/json'});
       res.end(JSON.stringify(body));    
     }
 
-    if (['POST', 'PUT'].includes(req.method)) {
-
+    if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+      
       bodyParser(req, () => { route.handler(req, res)})
 
     } else {

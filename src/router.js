@@ -1,4 +1,3 @@
-const messager = require('./messager');
 const UserController = require('../controllers/userController')
 const MainController = require('../controllers/mainController')
 
@@ -29,7 +28,44 @@ module.exports = [
     handler: UserController.createUser
   },
 
-  
+]
+ 
+
+// const queryController = (requestInfo, userSocket) => {
+
+  // TODO: Check database for file, 
+  //if there is none, 
+  // return denied
+  // If there is,
+  // check for private or public.
+  // If public,
+  // return allowed;
+  // If private and there is an API key,
+  // return allowed
+  // If private and no API Key or incorrect API Key,
+  // return denied;
+  // If else
+  // return ?
+
+// }
+
+// const bodyController = (requestInfo, userSocket) => {
+
+  // TODO: Check database for file, 
+  //if there is none, 
+  // return denied
+  // If there is,
+  // check for private or public.
+  // If public,
+  // return allowed;
+  // If private and there is an API key,
+  // return allowed
+  // If private and no API Key or incorrect API Key,
+  // return denied;
+  // If else
+  // return ?
+// }
+
   // async function router (requestInfo, userSocket) {
     
   //   const { method_token, route_token } = userSocket;
@@ -50,4 +86,4 @@ module.exports = [
   //   }
   // 
  
-]
+  

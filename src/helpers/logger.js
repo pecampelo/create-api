@@ -1,14 +1,21 @@
-const fs = require('fs');
-const path = require('path');
+function checkLogNecessity(necessity) {
+  if (necessity === true) { 
+    console.log('Server is online');
+  }
+  else { 
+    console.log('Server is online for testing, no logs needed');
+    return;
+  }
+}
 
-function requestEnd(requestInfo) {
-  const { address, pathname, method, bodyRequest, query } = requestInfo;
-  console.log('---------------------------------------------------------------------------')
-  console.log(`------ ${address} requested the URL - ${pathname} - with a ${method} method`);
+function requestEnd(req) {
+  const { address, url, method, body, query } = req;
+  console.log('----------------------------------------------------------------------------------------------')
+  console.log(`------ ${address} requested the URL - ${url} - with a ${method} method`);
   console.log(`------ It had a query and body of:`)
   console.log(query) 
-  console.log(bodyRequest)
-  console.log('---------------------------------------------------------------------------\n')
+  console.log(body)
+  console.log('----------------------------------------------------------------------------------------------\n')
 }
 
 function anything(data) {
