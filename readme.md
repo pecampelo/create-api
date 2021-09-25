@@ -27,30 +27,29 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [X] Suggestions for Routes
 - [X] Fix formatter sending undefined info
 - [X] Fix bodyResponse sending undefined info
-- [ ] Change output based on filter query:
-  - [ ] Order
-  - [ ] Sort
-  - [ ] Filter
-- [ ] Setup routes that can be accessed in /routes
-- [ ] Customize logfile path; if file does not exist, create it.
-- [ ] Test if file is updated when a second log is sent;
+- [X] ESLint use
+- [X] Change output based on query through REST API pattern:
+  - [X] Order
+- [X] Create
+- [X] Read
+- [X] Update
+- [X] Delete
 - [X] Body of Request is being shown
 - [X] Body of Response is sent
-- - [ ] Option for JSON or XML
-- [ ] Class Route
+- [ ] Setup routes that can be accessed in /
 - [ ] Install Docker to configure pg database
+- [ ] Option for JSON or XML
+- [ ] Class Route
 - [ ] Use Sequelize to connect to a database
 - [ ] Plain Text Option in Configs
 - [ ] Custom CORS settings
 - [ ] Setup connection to front-end
 - [ ] API Key Authenticator
-- [ ] Add server listeners for:
-    - [ ] Limit query per hour and per user
-    - [ ] Connection Timeout after 15s
+- [ ] Limit query per hour and per user
+- [ ] Connection Timeout after 15s
 - [ ] Maintain session state if API key
 - [ ] Pages for Request
 - [ ] Documentation
-
 ### Documentation
 
 - [ ] A description of the API

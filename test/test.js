@@ -1,53 +1,29 @@
-const mocha = require('mocha')
-const http = require('http')
-const { options } = require('../config')
-const server = require('../src/server')
-const assert = require('assert')
-const expectations = require('./expectations');
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-unused-vars
+const assert = require('assert');
+const { options } = require('../src/config');
+const server = require('../src/server');
 
 server.listen(options);
 
-describe('Server', function() {
-  it('should report that server is listening', () => {
-    const result = server.listening;
-    const expected = true;
-    assert.equal(result, expected)
-  });
-  it('should be hosting on intended host and port', () => {
-    const address = server.address();
-    const result = 'http://127.0.0.1:8001'
-    const expected = `http://${address.address}:${address.port}`
-    assert.equal(result, expected)
-  });
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+describe('Server', () => {
+	it('should report that server is listening', () => {
+		const result = server.listening;
+		const expected = true;
+		assert.equal(result, expected);
+	});
+	it('should be hosting on intended host and port', () => {
+		const address = server.address();
+		const result = 'http://127.0.0.1:8001';
+		const expected = `http://${address.address}:${address.port}`;
+		assert.equal(result, expected);
+	});
+});
 
 // TIPO 1
 
-// const test1 = new Test(`should listen to requests in ${config.host}:${config.port}/`, server.listening, true);
+// const test1 = new Test(`should listen to requests in ${config.host}:${config.port}/`,
+// server.listening, true);
 
 // test1.test()
 
@@ -92,10 +68,9 @@ describe('Server', function() {
 // test.should('receive a request from an user', () => {
 //   // const myServer = await server.listen(config);
 //   // const request = http.request(`http://${config.host}:${config.port}`);
-//   // // const requestReceived = 
-  
+//   // // const requestReceived =
+
 //   // // if(requestReceived )
-  
 
 // });
 
@@ -114,7 +89,6 @@ describe('Server', function() {
 // test.should('not log a /favicon.ico a /favicon.ico request', () => {
 
 // });
-
 
 // test.should('listen to request ending and log it', () => {
 
@@ -171,4 +145,3 @@ describe('Server', function() {
 // test.should('show response in API', () => {
 
 // });
-

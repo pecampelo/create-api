@@ -1,104 +1,84 @@
-const fs = require('fs');
-let { users } = require('../mocks/data.json')
+let { users } = require('../mocks/data.json');
 
-module.exports = { 
+module.exports = {
 
-  // const defaultKeys = [], defaultValues = [];
-  
-  // defaultPossibilities.forEach((property) => {
-    //   let valueArrays = Object.values(property)[1];
-    //   let key = Object.keys(property);
-    //   defaultKeys.push(key);
-    //   defaultValues.push(valueArrays);
-    // })
-    
-  listUsers(req, res) {
+	// const defaultKeys = [], defaultValues = [];
 
-    const { order } = req.query;
- 
-    // const file = fs.readFileSync('../create-api/mocks/data.json', 'utf-8');
-    // const parsedFile = JSON.parse(file);
-    // let users = parsedFile.users;
+	// defaultPossibilities.forEach((property) => {
+	//   let valueArrays = Object.values(property)[1];
+	//   let key = Object.keys(property);
+	//   defaultKeys.push(key);
+	//   defaultValues.push(valueArrays);
+	// })
 
-  
+	listUsers(req, res) {
+		const { order } = req.query;
 
-    const sortedData = users.sort((a, b) => {
-      if (order === 'desc') {
-        return a.id > b.id ? 1 : -1;
-      } else {
-        return a.id < b.id ? 1 : 1;
-      }
-    })
+		// const file = fs.readFileSync('../create-api/mocks/data.json', 'utf-8');
+		// const parsedFile = JSON.parse(file);
+		// let users = parsedFile.users;
 
-    res.send(200, sortedData);
- 
-  },
-  getUserById(req, res) {
-    
-    const { id } = req.params;
-    const user = users.find((user) => user.id == Number(id));
-         
-    if (!user) {
-      return res.send(400, { error: 'User not found!' });    
-    }
-    
-    res.send(200, user);
-    
-  },
-  getUserByName(req, res) {
-        
-    const { username } = req.params;
+		const sortedData = users.sort((a, b) => {
+			if (order === 'desc') return a.id < b.id ? 1 : -1;
+			else return a.id > b.id ? 1 : -1;
+		});
 
-    const user = users.find((user) => {
-      const names = user.name.toLowerCase().split(' ')
-      const result = names.find((anyName) => {
-        return anyName === username
-      })
-      return result
-    })
+		res.send(200, sortedData);
+	},
+	getUserById(req, res) {
+		const { id } = req.params;
+		const gottenUser = users.find((user) => user.id === Number(id));
 
-    if (!user) {
-      return res.send(400, { error: 'User not found!' });    
-    }
-    
-    res.send(200, user);
-    
-  },
-  createUser(req, res) {
+		if (!gottenUser) {
+			return res.send(400, { error: 'User not found!' });
+		}
 
-    const { body } = req;
-    const lastUserId = users[users.length - 1].id;
-    const newUser = {
-      id: Number(lastUserId) + 1,
-      name: body.name,
-      age: body.age
-    }
-    users.push(newUser)
+		return res.send(200, gottenUser);
+	},
+	getUserByName(req, res) {
+		const { username } = req.params;
 
-    res.send(200, newUser)
-  },
-  updateUser(req, res) {
-    const { id } = req.params;
-    const { name, age } = req.body;
+		const gottenUser = users.find((user) => {
+			const names = user.name.toLowerCase().split(' ');
+			const result = names.find((anyName) => anyName === username);
+			return result;
+		});
 
-    const user = users.find((user) => user.id == Number(id));
-    
-    user.name = name;
-    user.age = age;
+		if (!gottenUser) {
+			return res.send(400, { error: 'User not found!' });
+		}
 
-    console.log(user)
-    res.send(200, user)
-  },
-  deleteUser(req, res) {
-    let { id } = req.params;
-    const { name } = req.body;
+		return res.send(200, gottenUser);
+	},
+	createUser(req, res) {
+		const { body } = req;
+		const lastUserId = users[users.length - 1].id;
+		const newUser = {
+			id: Number(lastUserId) + 1,
+			name: body.name,
+			age: body.age,
+		};
+		users.push(newUser);
 
-    id = Number(id);
+		return res.send(200, newUser);
+	},
+	updateUser(req, res) {
+		const { id } = req.params;
+		const { name, age } = req.body;
 
-    users = users.filter((user) => user.id != id);
-    
-    
+		const updatedUser = users.find((user) => user.id === Number(id));
 
-    res.send(200, { deleted: true })
-  }
-}
+		updatedUser.name = name;
+		updatedUser.age = age;
+
+		res.send(200, updatedUser);
+	},
+	deleteUser(req, res) {
+		let { id } = req.params;
+		id = Number(id);
+
+		users = users.filter((user) => user.id !== id);
+
+		return res.send(200, { deleted: true });
+	},
+};

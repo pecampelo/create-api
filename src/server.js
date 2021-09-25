@@ -1,14 +1,14 @@
 const http = require('http');
 const config = require('../config')
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers')
-const { headerOptions } = require('./helpers/headers');
+const headers = require('./helpers/headers');
 const router = require('./router');
 const logger = require('./helpers/logger');
 const { requestHeaderOptions } = require('../config');
 
 const requestListener = async (req, res) => {
   
-  requestHeaderOptions(req);
+  headers.requestHeaderOptions(req);
 
   const requestURL = await URLFormatter(config.options, req);
   
@@ -17,20 +17,21 @@ const requestListener = async (req, res) => {
 
   req.address = req.socket.localAddress + ':' + req.socket.localPort
   req.method = req.method
-  req.query = await queryParser(requestURL);
-   
+  req.query = queryParser(requestURL);
+
+
   // console.log('\n--------------------------------------------------------------------------')
   // console.log('New Request Incoming!')
     
-  // headerOptions(req, 'allowed', res)
   
   // TODO : EXTRACT API TOKEN FROM URL
-  
+  headers.responseHeaderOptions('allowed', res);
+
   let { pathname } = requestURL
   let id = null;
   let username = null;
   
-    const splitEndpoint = pathname.split('/').filter(Boolean); // WOW
+  const splitEndpoint = pathname.split('/').filter(Boolean); // WOW
   
   
   if (splitEndpoint.length > 1) {
@@ -43,8 +44,6 @@ const requestListener = async (req, res) => {
       username = splitEndpoint[1].toLowerCase();
     }
   }
-
-  
   
   res.send = (statusCode, body) => {
     res.writeHead(statusCode, { 'Content-Type': 'application/json'});
@@ -57,7 +56,6 @@ const requestListener = async (req, res) => {
 
   if (route) {
       
-    
     req.params = { id, username }
 
     res.send = (statusCode, body) => {

@@ -1,5 +1,5 @@
 module.exports = [
-  '/',
-  '/users',
-  '/locations',
-]
+	'/',
+	'/users',
+	'/locations',
+];
