@@ -2,7 +2,11 @@ const endpoints = require('../mocks/endpoints');
 
 module.exports = {
 	listEndpoints(req, res) {
-		const { order } = req.query;
+		let { order } = req.query;
+
+		if (!order) {
+			order = 'asc';
+		}
 
 		const sortedEndpoints = endpoints.sort((a, b) => {
 			const itemA = a.toLowerCase();
@@ -14,7 +18,7 @@ module.exports = {
 			}
 		});
 
-		res.send(200, sortedEndpoints);
+		return res.send(200, sortedEndpoints);
 	},
 	// addEndpoint(req, res) {
 	// 	// TODO

@@ -20,9 +20,14 @@ const bodyParser = (request, callback) => {
 	});
 
 	request.on('end', () => {
-		body = JSON.parse(body);
-		request.body = body;
-		callback();
+		try {
+			body = JSON.parse(body);
+			request.body = body;
+		} catch (err) {
+			console.log('Body invalid or empty!');
+		} finally {
+			callback();
+		}
 	});
 };
 

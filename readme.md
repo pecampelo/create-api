@@ -36,10 +36,11 @@ This is a lightweight boilerplate for creating APIs. It does not require any npm
 - [X] Delete
 - [X] Body of Request is being shown
 - [X] Body of Response is sent
-- [ ] Setup routes that can be accessed in /
-- [ ] Install Docker to configure pg database
-- [ ] Option for JSON or XML
+- [X] Setup routes that can be accessed in /
 - [ ] Class Route
+- [ ] Install Docker
+- [ ] Configure pg database
+- [ ] Option for JSON or XML
 - [ ] Use Sequelize to connect to a database
 - [ ] Plain Text Option in Configs
 - [ ] Custom CORS settings

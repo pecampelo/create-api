@@ -30,7 +30,7 @@ module.exports = {
 		const gottenUser = users.find((user) => user.id === Number(id));
 
 		if (!gottenUser) {
-			return res.send(400, { error: 'User not found!' });
+			return res.send(400, { 'error': 'User not found!' });
 		}
 
 		return res.send(200, gottenUser);
@@ -45,7 +45,7 @@ module.exports = {
 		});
 
 		if (!gottenUser) {
-			return res.send(400, { error: 'User not found!' });
+			return res.send(400, { 'error': 'User not found!' });
 		}
 
 		return res.send(200, gottenUser);
@@ -53,10 +53,16 @@ module.exports = {
 	createUser(req, res) {
 		const { body } = req;
 		const lastUserId = users[users.length - 1].id;
+
+		if (!body) return res.send(400, { 'error': 'Body invalid' });
+		if (typeof body.name !== 'string' || typeof body.age !== 'number') {
+			return res.send(400, { 'error': 'Body invalid' });
+		}
+
 		const newUser = {
-			id: Number(lastUserId) + 1,
-			name: body.name,
-			age: body.age,
+			'id': Number(lastUserId) + 1,
+			'name': String(body.name),
+			'age': Number(body.age),
 		};
 		users.push(newUser);
 
@@ -79,6 +85,6 @@ module.exports = {
 
 		users = users.filter((user) => user.id !== id);
 
-		return res.send(200, { deleted: true });
+		return res.send(200, { 'deleted': true });
 	},
 };

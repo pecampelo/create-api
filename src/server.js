@@ -44,6 +44,7 @@ const requestListener = async (req, res) => {
 	};
 
 	const route = router.find((routeObject) => (
+
 		routeObject.endpoint === pathname && routeObject.method === req.method
 	));
 

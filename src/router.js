@@ -1,44 +1,32 @@
-const UserController = require('../controllers/userController');
+/* eslint-disable no-unused-vars */
 const MainController = require('../controllers/endpointController');
+const UserController = require('../controllers/userController');
 
-module.exports = [
-	{
-		'endpoint': '/',
-		'method': 'GET',
-		'handler': MainController.listEndpoints,
-	},
-	{
-		'endpoint': '/users',
-		'method': 'GET',
-		'handler': UserController.listUsers,
-	},
-	{
-		'endpoint': '/users/:id',
-		'method': 'GET',
-		'handler': UserController.getUserById,
-	},
-	{
-		'endpoint': '/users/:name',
-		'method': 'GET',
-		'handler': UserController.getUserByName,
-	},
-	{
-		'endpoint': '/users',
-		'method': 'POST',
-		'handler': UserController.createUser,
-	},
-	{
-		'endpoint': '/users/:id',
-		'method': 'PUT',
-		'handler': UserController.updateUser,
-	},
-	{
-		'endpoint': '/users/:id',
-		'method': 'DELETE',
-		'handler': UserController.deleteUser,
-	},
+class Route {
+	constructor(endpoint, method, handler) {
+		this.endpoint = endpoint;
+		this.method = method;
+		this.handler = handler;
+		Route.instances.push(this);
+	}
+}
 
-];
+Route.instances = [];
+
+// TODO: Try to center all endpoints into one.
+
+const endpointsRoute = 	new Route('/', 						'GET', 		MainController.listEndpoints);
+const listUsers = 			new Route('/users', 			'GET', 		UserController.listUsers);
+const createUser = 			new Route('/users', 			'POST', 	UserController.createUser);
+const	getUserByName = 	new Route('/users/:name', 'GET', 		UserController.getUserByName);
+const getUserById = 		new Route('/users/:id', 	'GET', 		UserController.getUserById);
+const updateUser = 			new Route('/users/:id', 	'PUT', 		UserController.updateUser);
+const deleteUser = 			new Route('/users/:id', 	'DELETE', UserController.deleteUser);
+
+console.log('\n');
+console.table(Route.instances);
+
+module.exports = Route.instances;
 
 // const queryController = (requestInfo, userSocket) => {
 
@@ -55,7 +43,6 @@ module.exports = [
 // return denied;
 // If else
 // return ?
-
 // }
 
 // const bodyController = (requestInfo, userSocket) => {
