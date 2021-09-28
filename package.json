@@ -4,6 +4,7 @@
   "description": "API Generator for web applications",
   "main": "app.js",
   "scripts": {
+    "postinstall": "ls",
     "dev": "nodemon src/app.js",
     "tests": "mocha --exit",
     "start": "node src/app.js"
@@ -24,10 +25,10 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.13"
   },
   "dependencies": {
     "mocha": "^9.1.1",
-    "mongodb": "^4.1.1"
+    "mongodb": "^4.1.2"
   }
 }

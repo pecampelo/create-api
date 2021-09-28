@@ -22,5 +22,12 @@ module.exports = {
 		'no-useless-concat': 'error',
 		'no-console': 'off',
 		'no-else-return': 'off',
+		'class-methods-use-this': 'off',
+		'brace-style': 'off',
+		'no-multiple-empty-lines': 'off',
+		'padded-blocks': 'off',
+		'no-unused-expressions': 'off',
+		'array-callback-return': 'off',
+		'max-len': 'off',
 	},
 };

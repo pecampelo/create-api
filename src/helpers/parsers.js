@@ -3,7 +3,7 @@ const URLFormatter = (config, req) => {
 	return requestURL;
 };
 
-const queryParser = (URL) => {
+const queryParser = async (URL) => {
 	const params = new URLSearchParams(URL.search.slice(1));
 	const query = {};
 	params.forEach((value, key) => {

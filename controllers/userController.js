@@ -1,56 +1,75 @@
 let { users } = require('../mocks/data.json');
 
-module.exports = {
+class UserController {
+	index(req, res) {
+		const { order, age } = req.query;
 
-	// const defaultKeys = [], defaultValues = [];
+		// function sortDataByOtherRules(data, ...rules) {
+		// 	let value = rules[0].name;
+		// 	const sortedData = data.sort((a, b) => {
+		// 		if (rules[0] === 'desc') {
+		// 			return a.id < b.id ? 1 : -1;
+		// 		}
 
-	// defaultPossibilities.forEach((property) => {
-	//   let valueArrays = Object.values(property)[1];
-	//   let key = Object.keys(property);
-	//   defaultKeys.push(key);
-	//   defaultValues.push(valueArrays);
-	// })
+		// 		else {
+		// 			return a.id > b.id ? 1 : -1;
+		// 		}
+		// 	});
+		// }
 
-	listUsers(req, res) {
-		const { order } = req.query;
+		function sortData(file, rule1) {
+			const sortedData = file.sort((a, b) => {
+				if (rule1 === 'desc') {
+					// if (rules) {
+					// 	return sortDataByOtherRules([rules]);
+					// }
+					// else {
+					return a.id < b.id ? 1 : -1;
+					// }
+				}
 
-		// const file = fs.readFileSync('../create-api/mocks/data.json', 'utf-8');
-		// const parsedFile = JSON.parse(file);
-		// let users = parsedFile.users;
-
-		const sortedData = users.sort((a, b) => {
-			if (order === 'desc') return a.id < b.id ? 1 : -1;
-			else return a.id > b.id ? 1 : -1;
-		});
-
-		res.send(200, sortedData);
-	},
-	getUserById(req, res) {
-		const { id } = req.params;
-		const gottenUser = users.find((user) => user.id === Number(id));
-
-		if (!gottenUser) {
-			return res.send(400, { 'error': 'User not found!' });
+				else {
+					return a.id > b.id ? 1 : -1;
+				}
+			});
+			return sortedData;
 		}
 
-		return res.send(200, gottenUser);
-	},
-	getUserByName(req, res) {
-		const { username } = req.params;
+		const sortedData = sortData(users, order, age);
 
-		const gottenUser = users.find((user) => {
-			const names = user.name.toLowerCase().split(' ');
-			const result = names.find((anyName) => anyName === username);
-			return result;
-		});
+		return res.send(200, sortedData);
+	}
 
-		if (!gottenUser) {
-			return res.send(400, { 'error': 'User not found!' });
+	show(req, res) {
+		const { id, username } = req.params;
+
+		let gotUser;
+
+		if (id) {
+			gotUser = users.find((user) => user.id === Number(id));
+
+			if (!gotUser) {
+				return res.send(400, { 'error': 'User not found!' });
+			}
+			return res.send(200, gotUser);
 		}
 
-		return res.send(200, gottenUser);
-	},
-	createUser(req, res) {
+		if (username) {
+			gotUser = users.find((user) => {
+				const names = user.name.toLowerCase().split(' ');
+				const result = names.find((anyName) => anyName === username);
+				return result;
+			});
+
+			if (!gotUser) {
+				return res.send(400, { 'error': 'User not found!' });
+			}
+			return gotUser;
+		}
+		return res.send(200, gotUser);
+	}
+
+	create(req, res) {
 		const { body } = req;
 		const lastUserId = users[users.length - 1].id;
 
@@ -67,8 +86,9 @@ module.exports = {
 		users.push(newUser);
 
 		return res.send(200, newUser);
-	},
-	updateUser(req, res) {
+	}
+
+	update(req, res) {
 		const { id } = req.params;
 		const { name, age } = req.body;
 
@@ -78,13 +98,16 @@ module.exports = {
 		updatedUser.age = age;
 
 		res.send(200, updatedUser);
-	},
-	deleteUser(req, res) {
+	}
+
+	delete(req, res) {
 		let { id } = req.params;
 		id = Number(id);
 
 		users = users.filter((user) => user.id !== id);
 
 		return res.send(200, { 'deleted': true });
-	},
-};
+	}
+}
+
+module.exports = UserController;
