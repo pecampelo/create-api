@@ -24,10 +24,9 @@ const bodyParser = (request, callback) => {
 			body = JSON.parse(body);
 			request.body = body;
 		} catch (err) {
-			console.log('Body invalid or empty!');
-		} finally {
-			callback();
+			console.log(err);
 		}
+		callback();
 	});
 };
 

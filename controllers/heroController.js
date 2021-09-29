@@ -1,11 +1,15 @@
-let { users } = require('../mocks/users.json');
+/* eslint-disable no-unused-vars */
+let heroes = require('../mocks/heroes.json');
 const { sortData } = require('./helpers/functions');
 
-class UserController {
-	index(req, res) {
-		const { order, age } = req.query;
 
-		const sortedData = sortData(users, order, age);
+
+class HeroController {
+
+	index(req, res) {
+		const { order, legs } = req.query;
+
+		const sortedData = sortData(heroes, order);
 
 		return res.send(200, sortedData);
 	}
@@ -16,7 +20,7 @@ class UserController {
 		let gotUser;
 
 		if (id) {
-			gotUser = users.find((user) => user.id === Number(id));
+			gotUser = heroes.find((user) => user.id === Number(id));
 
 			if (!gotUser) {
 				return res.send(400, { 'error': 'User not found!' });
@@ -25,7 +29,7 @@ class UserController {
 		}
 
 		if (username) {
-			gotUser = users.find((user) => {
+			gotUser = heroes.find((user) => {
 				const names = user.name.toLowerCase().split(' ');
 				const result = names.find((anyName) => anyName === username);
 				return result;
@@ -44,19 +48,19 @@ class UserController {
 
 	create(req, res) {
 		const { body } = req;
-		const lastUserId = users[users.length - 1].id;
+		const lastUserId = heroes[heroes.length - 1].id;
+
 
 		if (!body) return res.send(400, { 'error': 'Body invalid' });
-		if (typeof body.name !== 'string' || typeof body.age !== 'number') {
+		if (typeof body.name !== 'string') {
 			return res.send(400, { 'error': 'Body invalid' });
 		}
 
 		const newUser = {
 			'id': Number(lastUserId) + 1,
 			'name': String(body.name),
-			'age': Number(body.age),
 		};
-		users.push(newUser);
+		heroes.push(newUser);
 
 		return res.send(200, newUser);
 	}
@@ -65,7 +69,7 @@ class UserController {
 		const { id } = req.params;
 		const { name, age } = req.body;
 
-		const updatedUser = users.find((user) => user.id === Number(id));
+		const updatedUser = heroes.find((user) => user.id === Number(id));
 
 		updatedUser.name = name;
 		updatedUser.age = age;
@@ -77,10 +81,10 @@ class UserController {
 		let { id } = req.params;
 		id = Number(id);
 
-		users = users.filter((user) => user.id !== id);
+		heroes = heroes.filter((user) => user.id !== id);
 
 		return res.send(200, { 'deleted': true });
 	}
 }
 
-module.exports = UserController;
+module.exports = HeroController;

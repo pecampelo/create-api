@@ -49,9 +49,10 @@ const requestListener = async (req, res) => {
 		res.end(JSON.stringify(body));
 	};
 
-	const items = router.find((route) => route.mainEndpoint === fullPath);
-	const route = items.endpoints.find((endpoint) => endpoint.endpoint === fullPath && endpoint.method === req.method);
 
+	const items = router.find((route) => route.mainEndpoint === pathname);
+
+	const route = items.endpoints.find((endpoint) => endpoint.endpoint === fullPath && endpoint.method === req.method);
 
 	if (route) {
 
@@ -63,9 +64,33 @@ const requestListener = async (req, res) => {
 		};
 
 		if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
-			bodyParser(req, () => route.endpoints.handler(req, res));
+
+			bodyParser(req, () => {
+
+				try {
+
+					route.handler(req, res);
+
+				} catch (err) {
+
+					console.log(err);
+
+				}
+
+			});
+
 		} else {
-			route.handler(req, res);
+
+			try {
+
+				route.handler(req, res);
+
+			} catch (err) {
+
+				console.log(err);
+
+			}
+
 		}
 	} else {
 		res.writeHead(404, { 'Content-Type': 'text/html' });
