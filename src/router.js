@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 const MainController = require('../controllers/mainController');
 const UserController = require('../controllers/userController');
-const LocationController = require('../controllers/locationController');
 const endpoints = require('../mocks/endpoints');
 const HeroController = require('../controllers/heroController');
+const DefaultController = require('../controllers/defaultController');
 
-class Route {
-	constructor(endpoint, Controller, main = false) {
+class Route extends DefaultController {
+	constructor(route, methods, endpoint, Controller, main = false) {
+		super(route, methods);
 		this.mainEndpoint = endpoint;
 		this.controller = new Controller();
 		this.id = '/:id';
@@ -55,8 +56,9 @@ class Route {
 
 Route.instances = [];
 
-const main 	= new Route('/', 			MainController, true);
-const users = new Route('/users', UserController);
-const heroes = new Route('/heroes', HeroController);
+const main 	= 	new Route('Main Route',	'R', 		'/',				MainController, 	true);
+const users = 	new Route('Users', 			'CRUD', '/users', 	UserController);
+const heroes = 	new Route('Heroes', 		'CRUD',	'/heroes', 	HeroController);
 
+console.table(Route.instances);
 module.exports = Route.instances;

@@ -20,12 +20,16 @@ const bodyParser = (request, callback) => {
 	});
 
 	request.on('end', () => {
-		try {
-			body = JSON.parse(body);
-			request.body = body;
-		} catch (err) {
-			console.log(err);
+		if (body) {
+			try {
+				body = JSON.parse(body);
+				request.body = body;
+			} catch (err) {
+				console.log(err);
+			}
 		}
+		// eslint-disable-next-line no-empty
+		else {}
 		callback();
 	});
 };
