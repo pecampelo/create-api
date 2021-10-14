@@ -1,21 +1,29 @@
 const http = require('http');
 const config = require('./config');
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers');
-const headers = require('./helpers/headers');
-const router = require('./router');
+const headers = require('./middlewares/headers');
+const mainController = require('../controllers/mainController');
 const logger = require('./helpers/logger');
+const router = require('../router/router');
+const routes = require('../router/routes');
+
 
 const requestListener = async (req, res) => {
 
-
 	headers.requestHeaderOptions(req);
+
+
 
 	const requestURL = URLFormatter(config.options, req);
 
+
 	req.pathname = requestURL.pathname.toString();
 	if (req.pathname === '/favicon.ico') return res.end();
+
+
 	req.address = `${req.socket.localAddress}:${req.socket.localPort}`;
 	req.query = await queryParser(requestURL);
+
 
 	headers.responseHeaderOptions('allowed', res);
 
@@ -24,25 +32,17 @@ const requestListener = async (req, res) => {
 	let { pathname } = requestURL;
 	let extraPathname = '';
 	let id = null;
-	let username = null;
-
-
 
 	const splitEndpoint = pathname.split('/').filter(Boolean); // WOW
-
 	if (splitEndpoint.length > 1) {
-		if (Number(splitEndpoint[1])) {
-			pathname = `/${splitEndpoint[0]}`;
-			extraPathname = '/:id';
-			id = Number(splitEndpoint[1]);
-		} else {
-			pathname = `/${splitEndpoint[0]}`;
-			extraPathname = '/:name';
-			username = splitEndpoint[1].toLowerCase();
-		}
+		pathname = `/${splitEndpoint[0]}`;
+		extraPathname = '/:id';
+		// eslint-disable-next-line prefer-destructuring
+		id = splitEndpoint[1].toString();
 	}
 
 	const fullPath = `${pathname}${extraPathname}`;
+
 
 	res.send = (statusCode, body) => {
 		res.writeHead(statusCode, { 'Content-Type': 'application/json' });
@@ -50,31 +50,21 @@ const requestListener = async (req, res) => {
 	};
 
 
-	const items = router.find((route) => route.mainEndpoint === pathname);
+	router.use(routes);
+	const route = await router.find(pathname, fullPath, req.method);
 
-	const route = items.endpoints.find((endpoint) => endpoint.endpoint === fullPath && endpoint.method === req.method);
 
 	if (route) {
+		req.params = { id };
 
-		req.params = { id, username };
-
-		res.send = (statusCode, body) => {
-			res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-			res.end(JSON.stringify(body));
-		};
-
-		if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
+		if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
 
 			bodyParser(req, () => {
 
 				try {
-
 					route.handler(req, res);
-
 				} catch (err) {
-
 					console.log(err);
-
 				}
 
 			});
@@ -82,11 +72,9 @@ const requestListener = async (req, res) => {
 		} else {
 
 			try {
-
 				route.handler(req, res);
 
 			} catch (err) {
-
 				console.log(err);
 
 			}
@@ -96,6 +84,7 @@ const requestListener = async (req, res) => {
 		res.writeHead(404, { 'Content-Type': 'text/html' });
 		res.end(`Cannot ${req.method} ${req.url}`);
 	}
+	// });
 
 	// const response = await router(req, userSocket, res);
 

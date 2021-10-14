@@ -8,6 +8,7 @@ module.exports = {
 		'airbnb-base',
 	],
 	'parserOptions': {
+		'parser': 'babel-eslint',
 		'ecmaVersion': 12,
 	},
 	'rules': {
@@ -16,7 +17,7 @@ module.exports = {
 		'no-tabs': 'off',
 		'semi': 'error',
 		'quotes': ['error', 'single'],
-		'quote-props': ['error', 'always'],
+		'quote-props': 'off',
 		'rest-spread-spacing': 'error',
 		'prefer-template': 'error',
 		'no-useless-concat': 'error',
@@ -29,5 +30,10 @@ module.exports = {
 		'no-unused-expressions': 'off',
 		'array-callback-return': 'off',
 		'max-len': 'off',
+		'no-unused-vars': 'off',
+		'consistent-return': 'off',
+		'no-empty': 'off',
+		'no-shadow': 'off',
 	},
+
 };
