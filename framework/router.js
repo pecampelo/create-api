@@ -5,8 +5,8 @@ class Router {
 		this.controllers = [];
 	}
 
-	use(routes) {
-		this.routes = routes;
+	use(features) {
+		this.features = features;
 	}
 
 	async find(pathname, fullPath, method) {
@@ -31,15 +31,6 @@ class Router {
 			return this.routes;
 		}
 	}
-
-	async get(path) {}
-
-	async post(route) {}
-
-	async put(req, res, next) {}
-
-	async delet(req, res, next) {}
-
 }
 
 module.exports = new Router();

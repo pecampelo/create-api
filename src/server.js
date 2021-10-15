@@ -3,8 +3,8 @@ const config = require('./config');
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers');
 const headers = require('./middlewares/headers');
 const logger = require('./helpers/logger');
-const router = require('../router/router');
-const routes = require('../router/routes');
+const router = require('../framework/router');
+const routes = require('./routes');
 
 
 const requestListener = async (req, res) => {
