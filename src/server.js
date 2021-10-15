@@ -2,7 +2,6 @@ const http = require('http');
 const config = require('./config');
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers');
 const headers = require('./middlewares/headers');
-const mainController = require('../controllers/mainController');
 const logger = require('./helpers/logger');
 const router = require('../router/router');
 const routes = require('../router/routes');
@@ -51,8 +50,8 @@ const requestListener = async (req, res) => {
 
 
 	router.use(routes);
-	const route = await router.find(pathname, fullPath, req.method);
 
+	const route = await router.find(pathname, fullPath, req.method);
 
 	if (route) {
 		req.params = { id };
@@ -64,7 +63,7 @@ const requestListener = async (req, res) => {
 				try {
 					route.handler(req, res);
 				} catch (err) {
-					console.log(err);
+					console.log(err.message);
 				}
 
 			});
@@ -75,7 +74,7 @@ const requestListener = async (req, res) => {
 				route.handler(req, res);
 
 			} catch (err) {
-				console.log(err);
+				console.log(err.message);
 
 			}
 
@@ -84,14 +83,19 @@ const requestListener = async (req, res) => {
 		res.writeHead(404, { 'Content-Type': 'text/html' });
 		res.end(`Cannot ${req.method} ${req.url}`);
 	}
-	// });
-
-	// const response = await router(req, userSocket, res);
 
 	// TODO separate status code from response
+
+
+
+
+
 	// TODO: Connect use to database
 
-	// res.write(response);
+
+
+
+
 	// TODO : Fs. writeFile to logs.json
 
 	logger.saveLog();
