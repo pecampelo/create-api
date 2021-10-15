@@ -27,12 +27,12 @@ class UserController {
 	}
 
 	async create(req, res) {
-		const { body } = req;
-		const {
-			name, email, CPF, CNPJ,
-		} = req.body;
 
-		if (!body) return res.send(400, { 'error': 'Body invalid' });
+		if (!req.body) return res.send(400, { 'error': 'Body invalid' });
+
+		const {
+			name, email, CPF,
+		} = req.body;
 
 		const userResults = [
 			await UsersRepository.findByName(name),
@@ -40,14 +40,12 @@ class UserController {
 			await UsersRepository.findByCPF(CPF),
 		];
 
-		const userExists = userResults.forEach((result) => result === true);
+		const userExists = userResults.map(Boolean).filter((result) => result === true);
 
-		console.log(userExists);
-
-		if (userExists) { return res.send(400, { 'error': 'user is already taken' }); }
+		if (userExists.includes(true)) { return res.send(400, { 'error': 'user is already taken' }); }
 
 		else {
-			const newUser = await UsersRepository.store(body);
+			const newUser = await UsersRepository.store(req.body);
 			return res.send(200, newUser);
 		}
 

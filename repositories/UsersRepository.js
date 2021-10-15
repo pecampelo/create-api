@@ -11,7 +11,6 @@ class UsersRepository {
 
 
 
-
 	findById(id) {
 		return new Promise((resolve) => resolve(users.find((user) => user.id === id)));
 	}
@@ -29,7 +28,9 @@ class UsersRepository {
 	}
 
 	findByCPF(userCPF) {
-		return new Promise((resolve) => resolve(users.find((user) => user.CPF === userCPF)));
+		return new Promise((resolve) => resolve(
+			users.find((user) => user.CPF == userCPF && user.CPF !== undefined),
+		));
 	}
 
 
