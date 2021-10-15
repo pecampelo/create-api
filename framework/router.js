@@ -5,8 +5,8 @@ class Router {
 		this.controllers = [];
 	}
 
-	use(features) {
-		this.features = features;
+	use(routes) {
+		this.routes = routes;
 	}
 
 	async find(pathname, fullPath, method) {
@@ -23,12 +23,15 @@ class Router {
 				if (err.message === 'Cannot read property \'endpoints\' of undefined') {
 					return undefined;
 				}
+
 				console.log(err.message);
 
 			}
 
 		}	else {
+
 			return this.routes;
+
 		}
 	}
 }

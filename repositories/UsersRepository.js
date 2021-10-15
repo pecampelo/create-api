@@ -65,9 +65,9 @@ class UsersRepository {
 
 			const newUser = {
 				...user,
-				...body,
 				'name': user.name,
 				'email': user.email,
+				...body,
 			};
 
 			// splicing because i need to change the original file

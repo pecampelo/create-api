@@ -1,7 +1,6 @@
 const http = require('http');
 const config = require('./config');
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers');
-const headers = require('./middlewares/headers');
 const logger = require('./helpers/logger');
 const router = require('../framework/router');
 const routes = require('./routes');
@@ -9,12 +8,11 @@ const routes = require('./routes');
 
 const requestListener = async (req, res) => {
 
-	headers.requestHeaderOptions(req);
 
+	config.requestHeaderOptions(req, res);
 
 
 	const requestURL = URLFormatter(config.options, req);
-
 
 	req.pathname = requestURL.pathname.toString();
 	if (req.pathname === '/favicon.ico') return res.end();
@@ -24,7 +22,7 @@ const requestListener = async (req, res) => {
 	req.query = await queryParser(requestURL);
 
 
-	headers.responseHeaderOptions('allowed', res);
+	config.responseHeaderOptions('allowed', res);
 
 
 
@@ -48,10 +46,10 @@ const requestListener = async (req, res) => {
 		res.end(JSON.stringify(body));
 	};
 
-
 	router.use(routes);
 
 	const route = await router.find(pathname, fullPath, req.method);
+
 
 	if (route) {
 		req.params = { id };
