@@ -1,5 +1,5 @@
 const HeroController = require('../controllers/heroController');
-const Controller = require('../controllers/mainController');
+const Controller = require('../controllers/defaultController');
 const ServerController = require('../controllers/serverController');
 const UserController = require('../controllers/userController');
 

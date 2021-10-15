@@ -2,6 +2,34 @@ function requestHeaderOptions(req, res) {
 	if (req.url === 'favicon.ico') {
 		return res.end();
 	}
+
+	const formatURL = (url) => {
+
+		let newURL = '';
+		let reqURL = url.split('');
+		const split = reqURL.pop();
+
+		if (split === '/' && url.length > 1) {
+			newURL = reqURL.join('');
+			reqURL = newURL.split('');
+			const thereAreStillSlashes = reqURL[url.length - 2];
+
+			if (thereAreStillSlashes === '/') {
+
+				return formatURL(newURL);
+			}
+
+			return newURL;
+		}
+
+		else {
+			return url;
+		}
+
+	};
+
+	req.url = formatURL(req.url);
+
 	return undefined;
 
 	// const headers = req.headers;

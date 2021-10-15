@@ -55,6 +55,7 @@ const requestListener = async (req, res) => {
 
 	if (route) {
 		req.params = { id };
+		req.body = {};
 
 		if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
 

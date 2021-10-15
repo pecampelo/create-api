@@ -1,6 +1,8 @@
 const UsersRepository = require('../repositories/UsersRepository');
 
 class UserController {
+
+
 	async index(req, res) {
 		// const { order, age } = req.query;
 
@@ -9,6 +11,7 @@ class UserController {
 
 		return res.send(200, usersData);
 	}
+
 
 	async show(req, res) {
 		const { id } = req.params;
@@ -25,6 +28,8 @@ class UserController {
 
 		return res.send(200, gotUser);
 	}
+
+
 
 	async create(req, res) {
 
@@ -48,16 +53,35 @@ class UserController {
 			const newUser = await UsersRepository.store(req.body);
 			return res.send(200, newUser);
 		}
-
 	}
+
 
 	async update(req, res) {
 		const { id } = req.params;
 
-		const newUser = await UsersRepository.update(id, req.body);
+		const { name, email } = req.body;
 
-		res.send(200, newUser);
+		const userExists = await UsersRepository.findById(id);
+
+		if (!userExists) {
+			return res.send(404, { 'error': 'User not found!' });
+		}
+
+		if (!name) {
+			return res.send(400, { 'error': 'Name is required' });
+		}
+
+		const contactByEmail = await UsersRepository.findByEmail(email);
+
+		if (contactByEmail && contactByEmail.id !== id) {
+			return res.send(400, { 'error': 'Email has already been taken!' });
+		}
+
+		const updatedUser = await UsersRepository.update(id, req.body);
+
+		res.send(200, updatedUser);
 	}
+
 
 	async delete(req, res) {
 
@@ -76,6 +100,7 @@ class UserController {
 
 		return res.send(204, { });
 	}
+
 }
 
 module.exports = UserController;
