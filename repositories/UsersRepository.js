@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const db = require('../database');
 
 let users = require('../mocks/users');
 
@@ -7,9 +8,6 @@ class UsersRepository {
 	findAll() {
 		return new Promise((resolve) => resolve(users));
 	}
-
-
-
 
 	findById(id) {
 		return new Promise((resolve) => resolve(users.find((user) => user.id === id)));
@@ -33,28 +31,61 @@ class UsersRepository {
 		));
 	}
 
+	async create(body) {
+		const {
+			name,
+			email,
+			phone,
+			address,
+			addressNumber,
+			city,
+			state,
+			country,
+			CEP,
+			CPF,
+			age,
+			jobPosition,
+			company,
+			categoryId,
+		} = body;
 
+		const [row] = await db.query(
+			`INSERT INTO users(
+				name,
+				email,
+				phone,
+				address,
+				addressnumber,
+				city,
+				state,
+				country,
+				CEP,
+				CPF,
+				age,
+				jobposition,
+				company,
+				category_id
+		) VALUES(
+			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+			RETURNING *
+		`, [name,
+				email,
+				phone,
+				address,
+				addressNumber,
+				city,
+				state,
+				country,
+				CEP,
+				CPF,
+				age,
+				jobPosition,
+				company,
+				categoryId,
+			],
+		);
 
-
-	store(body) {
-		return new Promise((resolve) => {
-
-			const {
-				name,	email, CPF, CNPJ,
-			} = body;
-
-			const newUser = {
-				'id': uuidv4(),
-				'name': name,
-				'email': email,
-				'CPF': CPF,
-				'CNPJ': CNPJ,
-			};
-
-			users.push(newUser);
-
-			resolve(newUser);
-		});
+		return row;
 	}
 
 	update(id, body) {

@@ -50,7 +50,7 @@ class UserController {
 		if (userExists.includes(true)) { return res.send(400, { 'error': 'user is already taken' }); }
 
 		else {
-			const newUser = await UsersRepository.store(req.body);
+			const newUser = await UsersRepository.create(req.body);
 			return res.send(200, newUser);
 		}
 	}
