@@ -20,8 +20,6 @@
   },
   "homepage": "https://github.com/pecampelo/create-api#readme",
   "devDependencies": {
-    "chai": "^4.3.4",
-    "chai-http": "^4.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
@@ -29,8 +27,6 @@
   },
   "dependencies": {
     "mocha": "^9.1.1",
-    "mongodb": "^4.1.2",
-    "pg": "^8.7.1",
-    "uuid": "^8.3.2"
+    "pg": "^8.7.1"
   }
 }

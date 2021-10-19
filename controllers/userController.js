@@ -4,9 +4,9 @@ class UserController {
 
 
 	async index(req, res) {
-		// const { order, age } = req.query;
+		const { orderBy } = req.query;
 
-		const usersData = await UsersRepository.findAll();
+		const usersData = await UsersRepository.findAll(orderBy);
 		// const sortedData = await sortData(usersData, order, age);
 
 		return res.send(200, usersData);
@@ -86,15 +86,6 @@ class UserController {
 	async delete(req, res) {
 
 		const { id } = req.params;
-
-		const userData = await UsersRepository.findById(id);
-
-		if (!userData) {
-			return res.send(404, {
-				'deleted': false,
-				'error': 'user not found',
-			});
-		}
 
 		await UsersRepository.delete(id);
 

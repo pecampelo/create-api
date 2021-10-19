@@ -1,17 +1,12 @@
 /* eslint-disable no-unused-vars */
-let heroes = require('../mocks/heroes.json');
-const { sortData } = require('./helpers/functions');
-
-
+let heroes = require('../database/heroes.json');
 
 class HeroController {
 
 	index(req, res) {
 		const { order, legs } = req.query;
 
-		const sortedData = sortData(heroes, order);
-
-		return res.send(200, sortedData);
+		return res.send(200, heroes);
 	}
 
 	show(req, res) {

@@ -1,4 +1,4 @@
-const endpoints = require('../mocks/endpoints');
+const endpoints = require('../database/endpoints');
 
 class ServerController {
 	index(req, res) {

@@ -15,15 +15,11 @@ class Controller {
 		} else {
 			methods === undefined;
 		}
+
 		this.methods = string;
-
-
 		this.endpoint = endpoint;
-
 		this.childController = new ChildController();
-
 		this.id = '/:id';
-
 		this.name = '/:name';
 
 		if (main) {

@@ -62,7 +62,7 @@ const requestListener = async (req, res) => {
 				try {
 					route.handler(req, res);
 				} catch (err) {
-					console.log(err.message);
+					console.log(err);
 				}
 
 			});

@@ -1,34 +1,36 @@
-const { v4: uuidv4 } = require('uuid');
 const db = require('../database');
-
-let users = require('../mocks/users');
 
 class UsersRepository {
 
-	findAll() {
-		return new Promise((resolve) => resolve(users));
+	async findAll(orderBy = 'ASC') {
+		const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+		const rows = await db.query(`SELECT * FROM users ORDER BY name ${direction}`);
+
+		return rows;
 	}
 
-	findById(id) {
-		return new Promise((resolve) => resolve(users.find((user) => user.id === id)));
+	async findById(id) {
+		const [row] = await db.query('SELECT * FROM users WHERE id = $1 ORDER BY name ASC ', [id]);
+
+		return row;
 	}
 
-	findByName(username) {
-		return new Promise((resolve) => resolve(
-			users.find((user) => user.name === username),
-		));
+	async findByName(username) {
+		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [username]);
+
+		return row;
 	}
 
-	findByEmail(userEmail) {
-		return new Promise((resolve) => resolve(
-			users.find((user) => user.email === userEmail),
-		));
+	async findByEmail(userEmail) {
+		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [userEmail]);
+
+		return row;
 	}
 
-	findByCPF(userCPF) {
-		return new Promise((resolve) => resolve(
-			users.find((user) => user.CPF == userCPF && user.CPF !== undefined),
-		));
+	async	findByCPF(userCPF) {
+		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [userCPF]);
+
+		return row;
 	}
 
 	async create(body) {
@@ -88,35 +90,54 @@ class UsersRepository {
 		return row;
 	}
 
-	update(id, body) {
+	async update(id, body) {
+		const {
+			name,	email, phone, address, addressNumber, city,	state,
+			country, CEP, CPF,	age, jobPosition, company, categoryId,
+		} = body;
 
-		return new Promise((resolve) => {
+		const [row] = await db.query(
+			`UPDATE users
+			SET name  = $1,
+				email   = $2,
+				phone   = $3,
+				address = $4,
+				addressnumber = $5,
+				city = $6,
+				state = $7,
+				country = $8,
+				CEP = $9,
+				CPF = $10,
+				age = $11,
+				jobposition = $12,
+				company = $13,
+				category_id = $14
+			WHERE id = $15
+			RETURNING *
+		)`, [name,
+				email,
+				phone,
+				address,
+				addressNumber,
+				city,
+				state,
+				country,
+				CEP,
+				CPF,
+				age,
+				jobPosition,
+				company,
+				categoryId,
+				id,
+			],
+		);
 
-			const user = users.find((user) => user.id === id);
-
-			const newUser = {
-				...user,
-				'name': user.name,
-				'email': user.email,
-				...body,
-			};
-
-			// splicing because i need to change the original file
-			users.splice(users.indexOf(user), 1, newUser);
-
-			resolve(newUser);
-		});
+		return row;
 	}
 
-	delete(id) {
-		return new Promise((resolve) => {
-
-			users = users.filter((user) => user.id !== id);
-			// needs to be resignified because filter creates a new array
-			// unequal because it should get all the results that are not that id.
-
-			resolve();
-		});
+	async delete(id) {
+		const deleteOp = await db.query('DELETE FROM users WHERE id = $1', [id]);
+		return deleteOp;
 	}
 }
 

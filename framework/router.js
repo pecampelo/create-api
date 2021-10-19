@@ -24,7 +24,7 @@ class Router {
 					return undefined;
 				}
 
-				console.log(err.message);
+				console.log(err);
 
 			}
 
