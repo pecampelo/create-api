@@ -2,16 +2,16 @@
 const { Client } = require('pg');
 
 const client = new Client({
-	host: 'localhost',
+	host: '0.0.0.0',
 	port: 5432,
-	user: 'root',
-	password: 'root',
+	user: 'postgres',
+	password: 'postgres',
 	database: 'myusers',
 });
 
 client.connect()
 	.then(() => console.log(`Connected to database on port ${client.port}\n`))
-	.catch((e) => console.log(`Couldn't ${e.message} to database!\n`));
+	.catch((e) => console.log(`Couldn't connect to database!\n${e.message}`));
 
 
 exports.query = async (query, values) => {
