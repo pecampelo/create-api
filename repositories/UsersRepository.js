@@ -10,27 +10,41 @@ class UsersRepository {
 	}
 
 	async findById(id) {
-		const [row] = await db.query('SELECT * FROM users WHERE id = $1 ORDER BY name ASC ', [id]);
+		try {
+			const [row] = await db.query('SELECT * FROM users WHERE id = $1 ORDER BY name ASC', [id]);
+			return row;
 
-		return row;
+		} catch (err) {
+			return { 'error': 'id is invalid' };
+		}
+
 	}
 
 	async findByName(username) {
-		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [username]);
-
-		return row;
+		try {
+			const [row] = await db.query('SELECT * FROM users WHERE name = $1', [username]);
+			return row;
+		} catch (err) {
+			return { 'error': 'username is invalid' };
+		}
 	}
 
 	async findByEmail(userEmail) {
-		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [userEmail]);
-
-		return row;
+		try {
+			const [row] = await db.query('SELECT * FROM users WHERE email = $1', [userEmail]);
+			return row;
+		} catch (err) {
+			return { 'error': 'email is invalid' };
+		}
 	}
 
 	async	findByCPF(userCPF) {
-		const [row] = await db.query('SELECT * FROM users WHERE name = $1', [userCPF]);
-
-		return row;
+		try {
+			const [row] = await db.query('SELECT * FROM users WHERE CPF = $1', [userCPF]);
+			return row;
+		} catch (err) {
+			return { 'error': 'CPF is invalid' };
+		}
 	}
 
 	async create(body) {
@@ -68,7 +82,8 @@ class UsersRepository {
 				company,
 				category_id
 		) VALUES(
-			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
+		)
 			RETURNING *
 		`, [name,
 				email,

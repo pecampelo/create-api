@@ -50,8 +50,16 @@ class UserController {
 		if (userExists.includes(true)) { return res.send(400, { 'error': 'user is already taken' }); }
 
 		else {
-			const newUser = await UsersRepository.create(req.body);
-			return res.send(200, newUser);
+
+			try {
+				const newUser = await UsersRepository.create(req.body);
+				return res.send(200, newUser);
+
+			}	catch (err) {
+
+				return res.send(400, { 'error': 'check body' });
+
+			}
 		}
 	}
 
@@ -77,9 +85,21 @@ class UserController {
 			return res.send(400, { 'error': 'Email has already been taken!' });
 		}
 
-		const updatedUser = await UsersRepository.update(id, req.body);
+		const contactById = await UsersRepository.findById(id);
 
-		res.send(200, updatedUser);
+		if (contactById.name !== name) {
+			return res.send(400, { 'error': 'id is invalid' });
+		}
+
+
+		try {
+			const updatedUser = await UsersRepository.update(id, req.body);
+
+			return res.send(200, updatedUser);
+
+		} catch (err) {
+			return res.send(400, { 'error': 'Name is incorrect!' });
+		}
 	}
 
 

@@ -3,7 +3,7 @@ const config = require('./config');
 const { bodyParser, queryParser, URLFormatter } = require('./helpers/parsers');
 const logger = require('./helpers/logger');
 const router = require('../framework/router');
-const routes = require('./routes');
+const { instances: routes } = require('./routes');
 
 
 const requestListener = async (req, res) => {
@@ -52,35 +52,26 @@ const requestListener = async (req, res) => {
 
 
 	if (route) {
+
 		req.params = { id };
 		req.body = {};
 
 		if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
 
-			bodyParser(req, () => {
-
-				try {
-					route.handler(req, res);
-				} catch (err) {
-					console.log(err);
-				}
-
-			});
+			try {	bodyParser(req, () =>	route.handler(req, res));	}
+			catch (err) {	console.log('Error!');	}
 
 		} else {
 
-			try {
-				route.handler(req, res);
-
-			} catch (err) {
-				console.log(err.message);
-
-			}
+			try {		route.handler(req, res); 	}
+			catch (err) {	 console.log('Error'); }
 
 		}
 	} else {
+
 		res.writeHead(404, { 'Content-Type': 'text/html' });
 		res.end(`Cannot ${req.method} ${req.url}`);
+
 	}
 
 	// TODO separate status code from response

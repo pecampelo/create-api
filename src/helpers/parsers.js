@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const URLFormatter = (config, req) => {
 	const requestURL = new URL(`http://${config.host}:${config.port}${req.url}`);
 	return requestURL;
@@ -25,7 +26,8 @@ const bodyParser = (request, callback) => {
 				body = JSON.parse(body);
 				request.body = body;
 			} catch (err) {
-				console.log(err);
+				console.log(`Couldn't parse body!`);
+				request.body = {};
 			}
 		}
 		// eslint-disable-next-line no-empty
